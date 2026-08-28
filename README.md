@@ -1,2 +1,3 @@
 # Hire-Nepal
-This is my second webiste . I make this webiste in my free time but due to lack of team and not having so much time to focus only in this website . This webiste is not complete and this is a prototype and it work but it's feel like unreal  but i upload this to my repository to show my skill to prove if i have good team support i can make it.
+Hire-Nepal is a prototype employment platform designed to connect job seekers with employers through a modern web interface. I developed this project independently in my free time to explore real-world recruitment workflows, user interactions, and platform design. Although it is not a production-ready system, the prototype demonstrates my ability to turn a large-scale product idea into a functional web application.
+
