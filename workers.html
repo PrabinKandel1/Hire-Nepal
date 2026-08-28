@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Talent – HireNepal</title>
+  <meta name="description" content="Hire local professionals in Pokhara - Fast, Trusted, Community-driven">
+  <link rel="preload" as="image" href="your-hero-image.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo"><span class="logo-icon">🏔️</span><span class="logo-text">HireNepal</span></div>
+      <div id="menuToggle" class="menu-toggle"><span></span><span></span><span></span></div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+                <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <h1 class="section-title" style="font-size:2.8rem; margin-bottom:2rem;">Available Professionals in Pokhara</h1>
+    <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-bottom:2rem;">
+      <input type="text" id="searchInput" placeholder="Search name, skill, location..." style="flex:1; max-width:500px; padding:1rem 1.5rem; border:1px solid var(--border); border-radius:12px; background:var(--bg-light);">
+      <select id="sortSelect" style="padding:1rem; border-radius:12px; border:1px solid var(--border); background:var(--bg-light); min-width:180px;"><option value="">Sort by...</option><option value="rating-desc">Rating: High to Low</option><option value="price-asc">Price: Low to High</option></select>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; justify-content:center; margin-bottom:2.5rem;">
+      <button class="category-chip active" data-category="">All</button>
+      <button class="category-chip" data-category="Development">Development</button>
+      <button class="category-chip" data-category="Home Services">Home Services</button>
+      <button class="category-chip" data-category="Creative">Creative</button>
+      <button class="category-chip" data-category="Education">Education</button>
+      <button class="category-chip" data-category="Other">Other</button>
+    </div>
+    <div class="grid" id="workersGrid" style="margin-bottom:3rem; gap:2rem;"></div>
+    <div id="noWorkersFound" style="display:none;"><div class="empty-state warning"><i class="fas fa-search"></i><h2>No workers found</h2><p>We couldn't find any professionals matching your search.</p><div class="empty-state-actions"><button onclick="clearAllFilters()" class="btn btn-primary"><i class="fas fa-undo"></i> Clear Filters</button><a href="contact.html" class="btn btn-secondary"><i class="fas fa-plus-circle"></i> Post a Job Instead</a></div></div></div>
+    <div id="pagination" style="text-align:center; margin:3rem 0; display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;"></div>
+  </div>
+</section>
+
+<div id="toast" style="display:none; position:fixed; top:24px; right:24px; padding:1rem 1.8rem; border-radius:12px; background:#10b981; color:white; z-index:9999; box-shadow:0 6px 20px rgba(0,0,0,0.35); font-weight:500;"></div>
+<div class="fab-container" id="fabContainer"><button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button><div class="fab-menu"><button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button><button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button><button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button><button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button></div></div>
+<footer><div class="container"><p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p><p>Made with passion in Pokhara, Nepal 🏔️</p></div></footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/userData.js"></script>
+<script>
+let allWorkers = [];
+let filteredWorkers = [];
+let currentPage = 1;
+const ITEMS_PER_PAGE = 9;
+
+function refreshWorkersList() { allWorkers = getAllWorkersList(); filteredWorkers = [...allWorkers]; renderWorkers(1); }
+window.addEventListener('workersUpdated', refreshWorkersList);
+
+const grid = document.getElementById('workersGrid');
+const pagination = document.getElementById('pagination');
+const searchInput = document.getElementById('searchInput');
+const sortSelect = document.getElementById('sortSelect');
+const categoryButtons = document.querySelectorAll('.category-chip');
+const noWorkersDiv = document.getElementById('noWorkersFound');
+
+function showToast(message, bg) { const t = document.getElementById('toast'); t.textContent = message; t.style.background = bg; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2800); }
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function toggleBookmark(workerId, event) {
+  event.stopPropagation();
+  if (!isLoggedIn()) { showToast('Please login to bookmark', '#ef4444'); setTimeout(() => window.location.href = 'login.html', 1500); return; }
+  const added = toggleUserBookmark(workerId);
+  showToast(added ? '✅ Added to bookmarks!' : '❌ Removed from bookmarks', added ? '#f59e0b' : '#ef4444');
+  renderWorkers(currentPage);
+}
+function getBookmarks() { return isLoggedIn() ? getUserBookmarks() : []; }
+
+function clearAllFilters() {
+  searchInput.value = '';
+  sortSelect.value = '';
+  document.querySelectorAll('.category-chip').forEach(btn => btn.classList.remove('active'));
+  document.querySelector('.category-chip[data-category=""]').classList.add('active');
+  filteredWorkers = [...allWorkers];
+  currentPage = 1;
+  renderWorkers(1);
+}
+
+function showSkeletons() {
+  grid.innerHTML = '';
+  noWorkersDiv.style.display = 'none';
+  for(let i = 0; i < 6; i++) grid.innerHTML += `<div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-line short"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div><div style="height:50px;margin-top:20px;"></div></div>`;
+}
+
+function renderWorkers(page) {
+  if (filteredWorkers.length === 0) { grid.innerHTML = ''; noWorkersDiv.style.display = 'block'; pagination.innerHTML = ''; return; }
+  noWorkersDiv.style.display = 'none';
+  grid.innerHTML = '';
+  const start = (page - 1) * ITEMS_PER_PAGE;
+  const end = start + ITEMS_PER_PAGE;
+  const pageWorkers = filteredWorkers.slice(start, end);
+  const bookmarks = getBookmarks();
+  pageWorkers.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.padding = '2rem';
+    const isBookmarked = bookmarks.includes(w.id);
+    card.innerHTML = `<div style="text-align:center;position:relative;"><button onclick="toggleBookmark(${w.id}, event)" style="position:absolute;top:0;right:0;background:none;border:none;font-size:2rem;cursor:pointer;color:${isBookmarked ? '#f59e0b' : 'var(--text-light)'};">${isBookmarked ? '★' : '☆'}</button><img src="${w.photo}" alt="${w.name}" loading="lazy" style="width:140px;height:140px;border-radius:50%;object-fit:cover;margin-bottom:1.2rem;border:4px solid var(--primary-light);"><div style="display:flex;align-items:center;justify-content:space-between;"><h3>${w.name}</h3><button onclick="copyPhoneNumber('${w.phone}', '${w.name}')" class="copy-phone-btn" style="width:35px;height:35px;"><i class="fas fa-copy"></i></button></div><p style="color:#fbbf24;">★ ${w.rating.toFixed(1)}</p><p style="color:var(--primary);">${w.rate}</p><p>📍 ${w.location}</p><p style="height:90px;overflow:hidden;">${w.bio}</p><a href="worker-detail.html?id=${w.id}" class="btn btn-primary" style="padding:1.1rem 2.6rem;">View Profile</a></div>`;
+    grid.appendChild(card);
+  });
+  renderPagination();
+  scrollToTop();
+}
+
+function renderPagination() {
+  pagination.innerHTML = '';
+  const totalPages = Math.ceil(filteredWorkers.length / ITEMS_PER_PAGE);
+  if (totalPages <= 1) return;
+  const prev = document.createElement('button'); prev.textContent = '← Previous'; prev.disabled = currentPage === 1; prev.onclick = () => { if(currentPage > 1){ currentPage--; renderWorkers(currentPage); } }; pagination.appendChild(prev);
+  for(let i = 1; i <= totalPages; i++){ const btn = document.createElement('button'); btn.textContent = i; btn.style.background = i === currentPage ? 'var(--primary)' : 'transparent'; btn.style.color = i === currentPage ? 'white' : 'var(--text)'; btn.onclick = () => { currentPage = i; renderWorkers(i); }; pagination.appendChild(btn); }
+  const next = document.createElement('button'); next.textContent = 'Next →'; next.disabled = currentPage === totalPages; next.onclick = () => { if(currentPage < totalPages){ currentPage++; renderWorkers(currentPage); } }; pagination.appendChild(next);
+}
+
+function filterAndRender() {
+  showSkeletons();
+  setTimeout(() => {
+    let list = [...allWorkers];
+    const term = searchInput.value.toLowerCase().trim();
+    const activeCat = document.querySelector('.category-chip.active')?.dataset.category || '';
+    if (term) list = list.filter(w => w.name.toLowerCase().includes(term) || w.skills.some(s => s.toLowerCase().includes(term)) || w.bio.toLowerCase().includes(term) || w.location.toLowerCase().includes(term));
+    if (activeCat) list = list.filter(w => w.skills.some(s => s.includes(activeCat)));
+    const sortValue = sortSelect.value;
+    if (sortValue === 'rating-desc') list.sort((a,b) => b.rating - a.rating);
+    else if (sortValue === 'price-asc') list.sort((a,b) => { const getPrice = str => parseInt(str.match(/\d+/)?.[0] || 99999); return getPrice(a.rate) - getPrice(b.rate); });
+    filteredWorkers = list;
+    currentPage = 1;
+    renderWorkers(1);
+  }, 500);
+}
+
+categoryButtons.forEach(btn => { btn.addEventListener('click', () => { categoryButtons.forEach(b => b.classList.remove('active')); btn.classList.add('active'); filterAndRender(); }); });
+searchInput.addEventListener('input', filterAndRender);
+sortSelect.addEventListener('change', filterAndRender);
+
+refreshWorkersList();
+
+let touchstartX = 0;
+document.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => { if (e.changedTouches[0].screenX - touchstartX > 100 && !document.querySelector('input:focus')) { if (navigator.vibrate) navigator.vibrate(20); showToast('⬅️ Going back...', '#6366f1'); setTimeout(() => history.back(), 200); } });
+</script>
+</body>
+</html>

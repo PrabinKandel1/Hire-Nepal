@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Job / Contact – HireNepal</title>
+  <meta name="description" content="Hire local professionals in Pokhara - Fast, Trusted, Community-driven">
+  <link rel="preload" as="image" href="your-hero-image.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/map.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo"><span class="logo-icon">🏔️</span><span class="logo-text">HireNepal</span></div>
+      <div id="menuToggle" class="menu-toggle"><span></span><span></span><span></span></div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+                <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">📬 Post a Job or Get in Touch</h1>
+
+    <div id="loginGate" class="login-gate">
+      <h2>🔒 Please Login to Post a Job</h2>
+      <p>You need to be signed in to submit job requests or contact professionals.</p>
+      <a href="login.html" class="btn btn-primary" style="padding:1.2rem 3rem; font-size:1.2rem;"><i class="fas fa-sign-in-alt"></i> Go to Login / Sign Up</a>
+    </div>
+
+    <div id="jobFormContainer" style="display:none;">
+      <div class="job-form-card">
+        <h2 style="text-align:center; margin-bottom:2rem; color:var(--primary);">📋 Post a New Job</h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:2rem;">Fill in your details. Admin will review and approve your job.</p>
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group"><label><i class="fas fa-user"></i> Full Name *</label><input type="text" id="name" placeholder="Your full name" required></div>
+            <div class="form-group"><label><i class="fas fa-envelope"></i> Email Address *</label><input type="email" id="email" placeholder="your@email.com" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label><i class="fas fa-phone-alt"></i> Phone Number *</label><input type="tel" id="phone" placeholder="e.g., 98455130**" required></div>
+            <div class="form-group"><label><i class="fas fa-map-marker-alt"></i> Location *</label><input type="text" id="location" placeholder="e.g., Lakeside, Pokhara" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label><i class="fas fa-briefcase"></i> Job Title *</label><input type="text" id="jobTitle" placeholder="e.g., Need a web developer, plumber..." required></div>
+            <div class="form-group"><label><i class="fas fa-tag"></i> Category *</label><select id="category" required><option value="">Select Category</option><option value="Development">💻 Development</option><option value="Home Services">🔧 Home Services</option><option value="Creative">🎨 Creative</option><option value="Education">📚 Education</option><option value="Other">📌 Other</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label><i class="fas fa-money-bill-wave"></i> Budget / Amount *</label><input type="text" id="amount" placeholder="e.g., Rs. 5000 - 15000" required></div>
+            <div class="form-group"><label><i class="fas fa-calendar-alt"></i> Timeline</label><input type="text" id="timeline" placeholder="e.g., Urgent, Within a week"></div>
+          </div>
+          <div class="form-group"><label><i class="fas fa-align-left"></i> Job Description *</label><textarea id="message" rows="6" placeholder="Describe your requirements..." required></textarea></div>
+          <div class="form-group"><label><i class="fas fa-paperclip"></i> Attach CV / Resume (optional)</label><input type="file" id="attachment" accept=".pdf,.doc,.docx,.jpg,.png"><small id="fileName">No file selected (max 2MB)</small></div>
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%; padding:1.2rem;"><i class="fas fa-paper-plane"></i> Submit Job for Review</button>
+        </form>
+        <p style="text-align:center; font-size:0.8rem; margin-top:1rem;"><i class="fas fa-clock"></i> Jobs are reviewed by admin within 24 hours</p>
+      </div>
+      <div id="contact-notification"></div>
+    </div>
+
+    <div class="map-section"><h2><i class="fas fa-map-marker-alt"></i> We're Based in Pokhara</h2><div id="map"></div></div>
+
+    <div class="developer-section">
+      <h2>👨‍💻 Meet The Developer</h2>
+      <div class="developer-card">
+        <div class="developer-image-wrapper"><img src="img/1.jpg" alt="Prabin Kandel" class="developer-image" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop'"><div class="image-ring"></div></div>
+        <h3 class="developer-name">Prabin Kandel</h3>
+        <div class="developer-title">Founder & Lead Developer</div>
+        <p class="developer-bio">A passionate full-stack developer from Pokhara who built HireNepal from scratch.</p>
+        <div class="developer-stats"><div class="stat-item"><div class="stat-number">5+</div><div class="stat-label">Years</div></div><div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">Projects</div></div><div class="stat-item"><div class="stat-number">100+</div><div class="stat-label">Clients</div></div></div>
+        <div class="developer-social"><a href="https://github.com/prabinkandel" target="_blank" class="social-link"><i class="fab fa-github"></i></a><a href="https://www.linkedin.com/in/prabin-kandel-63b3b43aa" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a><a href="mailto:kandelprabin09@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a><a href="https://www.facebook.com/share/1JNbYCxtma/" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a><a href="https://wa.me/9779845513093" target="_blank" class="social-link"><i class="fab fa-whatsapp"></i></a></div>
+      </div>
+    </div>
+
+    <div class="contact-cards">
+      <div class="contact-card"><i class="fas fa-phone-alt"></i><h3>Phone</h3><p>+977 9845513093</p><a href="tel:+9779845513093"><i class="fas fa-arrow-right"></i> Call Now</a></div>
+      <div class="contact-card"><i class="fas fa-envelope"></i><h3>Email</h3><p>kandelprabin09@gmail.com</p><a href="mailto:kandelprabin09@gmail.com"><i class="fas fa-arrow-right"></i> Send Email</a></div>
+      <div class="contact-card"><i class="fab fa-facebook"></i><h3>Facebook</h3><p>@hirenepal</p><a href="https://www.facebook.com/share/1JNbYCxtma/" target="_blank"><i class="fas fa-arrow-right"></i> Follow</a></div>
+      <div class="contact-card"><i class="fab fa-whatsapp"></i><h3>WhatsApp</h3><p>+977 9845513093</p><a href="https://wa.me/9779845513093" target="_blank"><i class="fas fa-arrow-right"></i> Chat</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="fab-container" id="fabContainer"><button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button><div class="fab-menu"><button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button><button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button><button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button><button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button></div></div>
+<footer><div class="container"><p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p><p>Made with passion in Pokhara, Nepal 🏔️</p></div></footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/main.js"></script>
+<script src="js/userData.js"></script>
+
+<script>
+function checkLoginStatus() {
+    const loggedIn = typeof isLoggedIn === 'function' ? isLoggedIn() : (localStorage.getItem('isLoggedIn') === 'true' || !!localStorage.getItem('hirenepal_current_user'));
+    const loginGate = document.getElementById('loginGate');
+    const jobFormContainer = document.getElementById('jobFormContainer');
+    if (loginGate && jobFormContainer) {
+        if (loggedIn) {
+            loginGate.style.display = 'none';
+            jobFormContainer.style.display = 'block';
+            const currentUser = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+            if (currentUser) {
+                if (currentUser.fullName) document.getElementById('name').value = currentUser.fullName;
+                if (currentUser.email) document.getElementById('email').value = currentUser.email;
+            }
+        } else {
+            loginGate.style.display = 'block';
+            jobFormContainer.style.display = 'none';
+        }
+    }
+}
+
+document.getElementById('attachment')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const fileNameSpan = document.getElementById('fileName');
+    if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+            if (typeof showToast === 'function') showToast('File too large (max 2MB)', '#ef4444');
+            else alert('File too large (max 2MB)');
+            this.value = '';
+        } else {
+            fileNameSpan.textContent = file.name;
+            fileNameSpan.style.color = '';
+        }
+    } else {
+        fileNameSpan.textContent = 'No file selected';
+    }
+});
+
+document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="spinner"></span> Submitting...';
+    btn.disabled = true;
+
+    const jobData = {
+        id: Date.now(),
+        jobId: 'JOB_' + Date.now(),
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        location: document.getElementById('location').value,
+        jobTitle: document.getElementById('jobTitle').value,
+        category: document.getElementById('category').value,
+        amount: document.getElementById('amount').value,
+        timeline: document.getElementById('timeline').value,
+        description: document.getElementById('message').value,
+        userId: typeof getCurrentUserId === 'function' ? getCurrentUserId() : null,
+        status: 'pending',
+        submittedAt: new Date().toISOString(),
+        reviewedAt: null
+    };
+
+    const pendingJobs = JSON.parse(localStorage.getItem('hirenepal_pending_jobs') || '[]');
+    pendingJobs.push(jobData);
+    localStorage.setItem('hirenepal_pending_jobs', JSON.stringify(pendingJobs));
+    if (typeof addUserJobPost === 'function') addUserJobPost(jobData);
+
+    const notif = document.getElementById('contact-notification');
+    notif.innerHTML = '<i class="fas fa-check-circle"></i> Job submitted successfully! Admin will review and approve within 24 hours.';
+    notif.className = 'show success';
+    notif.style.display = 'block';
+    e.target.reset();
+    document.getElementById('fileName').textContent = 'No file selected';
+    const currentUser = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+    if (currentUser) {
+        if (currentUser.fullName) document.getElementById('name').value = currentUser.fullName;
+        if (currentUser.email) document.getElementById('email').value = currentUser.email;
+    }
+    setTimeout(() => { notif.style.display = 'none'; }, 5000);
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+});
+
+function initMapWithRetry(retries = 3) {
+    const mapElement = document.getElementById("map");
+    if (!mapElement) return;
+    if (typeof L === 'undefined') {
+        if (retries > 0) setTimeout(() => initMapWithRetry(retries - 1), 500);
+        else mapElement.innerHTML = '<div style="padding:2rem;text-align:center;">🗺️ Map could not load. <a href="https://maps.google.com/?q=Pokhara" target="_blank">Open in Google Maps</a></div>';
+        return;
+    }
+    try {
+        const latitude = 28.2096;
+        const longitude = 83.9853;
+        const map = L.map(mapElement).setView([latitude, longitude], 15);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap contributors", maxZoom: 19 }).addTo(map);
+        const marker = L.marker([latitude, longitude]).addTo(map);
+        marker.bindPopup(`<div class="map-popup"><h3>HireNepal HQ</h3><p><i class="fas fa-map-marker-alt"></i> Lakeside, Pokhara</p><p><i class="fas fa-phone"></i> +977 9845513093</p><a class="direction-btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=28.2096,83.9853">Get Directions</a></div>`).openPopup();
+        setTimeout(() => map.invalidateSize(), 200);
+    } catch (error) {
+        console.error("Map error:", error);
+        if (retries > 0) setTimeout(() => initMapWithRetry(retries - 1), 500);
+        else mapElement.innerHTML = '<div style="padding:2rem;text-align:center;">🗺️ Map error. <a href="https://maps.google.com/?q=Pokhara" target="_blank">Open in Google Maps</a></div>';
+    }
+}
+document.addEventListener('DOMContentLoaded', initMapWithRetry);
+checkLoginStatus();
+window.addEventListener('storage', function(e) {
+    if (e.key === 'isLoggedIn' || e.key === 'hirenepal_current_user' || e.key === 'currentUserId') checkLoginStatus();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Sign Up – HireNepal</title>
+  <meta name="description" content="Hire local professionals in Pokhara - Fast, Trusted, Community-driven">
+  <link rel="preload" as="image" href="your-hero-image.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo"><span class="logo-icon">🏔️</span><span class="logo-text">HireNepal</span></div>
+      <div id="menuToggle" class="menu-toggle"><span></span><span></span><span></span></div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+                <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="auth-section">
+  <div class="auth-card">
+    <div class="tab-container">
+      <button id="loginTab" class="tab-btn active">Sign In</button>
+      <button id="signupTab" class="tab-btn">Create Account</button>
+    </div>
+    <form id="loginForm" class="auth-form">
+      <div class="form-group"><label for="loginUsername">Username or Email</label><input type="text" id="loginUsername" placeholder="Enter username or email" required></div>
+      <div class="form-group"><label for="loginPassword">Password</label><div class="password-wrapper"><input type="password" id="loginPassword" placeholder="Enter password" required><i class="fas fa-eye-slash password-toggle-icon" onclick="togglePassword('loginPassword', this)"></i></div></div>
+      <div class="forgot-password-link"><a href="#" onclick="openResetModal(); return false;">Forgot Password?</a></div>
+      <div id="loginError" class="error-message"></div>
+      <button type="submit" class="btn-primary">Sign In</button>
+    </form>
+    <form id="signupForm" class="auth-form" style="display:none;">
+      <div class="form-group"><label for="signupName">Full Name</label><input type="text" id="signupName" placeholder="Your full name" required></div>
+      <div class="form-group"><label for="signupEmail">Email</label><input type="email" id="signupEmail" placeholder="your@email.com" required></div>
+      <div class="form-group"><label for="signupUsername">Username</label><input type="text" id="signupUsername" placeholder="Choose a username" required></div>
+      <div class="form-group"><label for="signupPassword">Password</label><div class="password-wrapper"><input type="password" id="signupPassword" placeholder="Create password" required><i class="fas fa-eye-slash password-toggle-icon" onclick="togglePassword('signupPassword', this)"></i></div></div>
+      <div class="form-group"><label for="signupConfirmPassword">Confirm Password</label><div class="password-wrapper"><input type="password" id="signupConfirmPassword" placeholder="Confirm password" required><i class="fas fa-eye-slash password-toggle-icon" onclick="togglePassword('signupConfirmPassword', this)"></i></div></div>
+      <div id="signupError" class="error-message"></div>
+      <button type="submit" class="btn-primary">Create Account</button>
+    </form>
+    <p class="switch-text"><span id="switchText">Don't have an account?</span> <a id="switchLink" href="#" class="switch-link">Sign Up</a></p>
+  </div>
+</section>
+
+<div id="resetModal" class="reset-modal">
+  <div class="reset-card">
+    <button class="close-modal" onclick="closeResetModal()">✕</button>
+    <h2>Reset Password</h2>
+    <div id="resetStep1" class="reset-step active"><p style="text-align:center; margin-bottom:1.5rem;">Enter your email to receive a reset code</p><input type="email" id="resetEmail" placeholder="Your email address"><button onclick="requestResetCode()" class="btn-primary">Send Reset Code</button><div id="resetError1" class="error-message"></div></div>
+    <div id="resetStep2" class="reset-step"><p style="text-align:center; margin-bottom:1.5rem;">Enter the 6-digit code sent to your email</p><input type="text" id="resetCode" placeholder="6-digit code" maxlength="6"><button onclick="verifyResetCode()" class="btn-primary">Verify Code</button><div class="timer-text" id="timerText">Code expires in 15:00</div><div id="resetError2" class="error-message"></div><p style="text-align:center; margin-top:1rem;"><a href="#" onclick="resendCode(); return false;" style="color:var(--primary);">Resend Code</a></p></div>
+    <div id="resetStep3" class="reset-step"><p style="text-align:center; margin-bottom:1.5rem;">Enter your new password</p><div class="password-wrapper"><input type="password" id="newPassword" placeholder="New password"><i class="fas fa-eye-slash password-toggle-icon" onclick="togglePassword('newPassword', this)"></i></div><div class="password-wrapper"><input type="password" id="confirmNewPassword" placeholder="Confirm new password"><i class="fas fa-eye-slash password-toggle-icon" onclick="togglePassword('confirmNewPassword', this)"></i></div><button onclick="setNewPassword()" class="btn-primary">Reset Password</button><div id="resetError3" class="error-message"></div></div>
+  </div>
+</div>
+
+<div class="fab-container" id="fabContainer">
+  <button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button>
+  <div class="fab-menu">
+    <button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button>
+    <button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button>
+    <button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button>
+    <button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button>
+  </div>
+</div>
+
+<footer><div class="container"><p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p><p>Made with passion in Pokhara, Nepal 🏔️</p></div></footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="js/main.js"></script>
+<script src="js/userData.js"></script>
+<script>
+function togglePassword(inputId, element) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') { input.type = 'text'; element.classList.remove('fa-eye-slash'); element.classList.add('fa-eye'); }
+  else { input.type = 'password'; element.classList.remove('fa-eye'); element.classList.add('fa-eye-slash'); }
+}
+function toggleFabMenu() { const container = document.getElementById('fabContainer'); if (container) container.classList.toggle('open'); }
+document.addEventListener('click', function(e) { const container = document.getElementById('fabContainer'); if (container && !container.contains(e.target) && container.classList.contains('open')) container.classList.remove('open'); });
+const scrollBtn = document.getElementById('scrollTopBtn');
+function checkScroll() { if (window.scrollY > 300) scrollBtn.classList.add('visible'); else scrollBtn.classList.remove('visible'); }
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+window.addEventListener('scroll', checkScroll); if (scrollBtn) scrollBtn.addEventListener('click', scrollToTop); checkScroll();
+
+const loginTab = document.getElementById('loginTab'), signupTab = document.getElementById('signupTab'), loginForm = document.getElementById('loginForm'), signupForm = document.getElementById('signupForm'), switchText = document.getElementById('switchText'), switchLink = document.getElementById('switchLink');
+loginTab.addEventListener('click', () => { loginTab.classList.add('active'); signupTab.classList.remove('active'); loginForm.style.display = 'flex'; signupForm.style.display = 'none'; switchText.textContent = "Don't have an account?"; switchLink.textContent = "Sign Up"; });
+signupTab.addEventListener('click', () => { signupTab.classList.add('active'); loginTab.classList.remove('active'); signupForm.style.display = 'flex'; loginForm.style.display = 'none'; switchText.textContent = "Already have an account?"; switchLink.textContent = "Sign In"; });
+switchLink.addEventListener('click', e => { e.preventDefault(); if (signupForm.style.display === 'none') signupTab.click(); else loginTab.click(); });
+
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errorDiv = document.getElementById('loginError');
+  const result = loginUser(username, password);
+  if (result.success) {
+    errorDiv.style.display = 'none';
+    alert(`Welcome back, ${result.user.fullName || result.user.username}!`);
+    window.dispatchEvent(new Event('storage'));
+    window.location.href = 'your-profile.html';
+  } else { errorDiv.textContent = result.message; errorDiv.style.display = 'block'; }
+});
+
+document.getElementById('signupForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const username = document.getElementById('signupUsername').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  const confirm = document.getElementById('signupConfirmPassword').value;
+  const errorDiv = document.getElementById('signupError');
+  if (password !== confirm) { errorDiv.textContent = "Passwords don't match!"; errorDiv.style.display = 'block'; return; }
+  if (username.length < 3) { errorDiv.textContent = "Username must be at least 3 characters"; errorDiv.style.display = 'block'; return; }
+  if (password.length < 4) { errorDiv.textContent = "Password must be at least 4 characters"; errorDiv.style.display = 'block'; return; }
+  const result = createUser({ username: username, fullName: name, email: email, password: password });
+  if (result.success) {
+    errorDiv.style.display = 'none';
+    alert(`Account created! Welcome, ${name}!`);
+    window.dispatchEvent(new Event('storage'));
+    window.location.href = 'your-profile.html';
+  } else { errorDiv.textContent = result.message; errorDiv.style.display = 'block'; }
+});
+
+let resetEmail = '', timerInterval = null;
+window.openResetModal = function() { document.getElementById('resetModal').classList.add('active'); resetToStep1(); return false; }
+window.closeResetModal = function() { document.getElementById('resetModal').classList.remove('active'); if (timerInterval) clearInterval(timerInterval); }
+function resetToStep1() { document.getElementById('resetStep1').classList.add('active'); document.getElementById('resetStep2').classList.remove('active'); document.getElementById('resetStep3').classList.remove('active'); document.getElementById('resetEmail').value = ''; document.getElementById('resetCode').value = ''; document.getElementById('newPassword').value = ''; document.getElementById('confirmNewPassword').value = ''; document.getElementById('resetError1').style.display = 'none'; document.getElementById('resetError2').style.display = 'none'; document.getElementById('resetError3').style.display = 'none'; }
+window.requestResetCode = function() {
+  const email = document.getElementById('resetEmail').value.trim();
+  const errorDiv = document.getElementById('resetError1');
+  if (!email) { errorDiv.textContent = 'Please enter your email'; errorDiv.style.display = 'block'; return; }
+  const users = getAllUsers();
+  const user = users.find(u => u.email === email);
+  if (!user) { errorDiv.textContent = 'Email not registered!'; errorDiv.style.display = 'block'; return; }
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  const expiry = Date.now() + 15 * 60 * 1000;
+  const resetCodes = JSON.parse(localStorage.getItem('hirenepal_reset_codes') || '{}');
+  resetCodes[email] = { code, expiry, used: false };
+  localStorage.setItem('hirenepal_reset_codes', JSON.stringify(resetCodes));
+  alert(`🔐 PASSWORD RESET CODE: ${code}\n\n(This is a demo - in real app, this would be sent to ${email})`);
+  resetEmail = email;
+  errorDiv.style.display = 'none';
+  document.getElementById('resetStep1').classList.remove('active');
+  document.getElementById('resetStep2').classList.add('active');
+  startTimer(15 * 60);
+};
+window.verifyResetCode = function() {
+  const code = document.getElementById('resetCode').value.trim();
+  const errorDiv = document.getElementById('resetError2');
+  if (!code || code.length !== 6) { errorDiv.textContent = 'Please enter a valid 6-digit code'; errorDiv.style.display = 'block'; return; }
+  const resetCodes = JSON.parse(localStorage.getItem('hirenepal_reset_codes') || '{}');
+  const resetData = resetCodes[resetEmail];
+  if (!resetData) { errorDiv.textContent = 'No reset request found!'; errorDiv.style.display = 'block'; return; }
+  if (resetData.used) { errorDiv.textContent = 'Code already used!'; errorDiv.style.display = 'block'; return; }
+  if (Date.now() > resetData.expiry) { errorDiv.textContent = 'Code expired! Request new code.'; errorDiv.style.display = 'block'; return; }
+  if (resetData.code !== code) { errorDiv.textContent = 'Invalid code!'; errorDiv.style.display = 'block'; return; }
+  errorDiv.style.display = 'none';
+  document.getElementById('resetStep2').classList.remove('active');
+  document.getElementById('resetStep3').classList.add('active');
+  if (timerInterval) clearInterval(timerInterval);
+  resetData.used = true;
+  resetCodes[resetEmail] = resetData;
+  localStorage.setItem('hirenepal_reset_codes', JSON.stringify(resetCodes));
+};
+window.resendCode = function() {
+  if (!resetEmail) { closeResetModal(); openResetModal(); return; }
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  const expiry = Date.now() + 15 * 60 * 1000;
+  const resetCodes = JSON.parse(localStorage.getItem('hirenepal_reset_codes') || '{}');
+  resetCodes[resetEmail] = { code, expiry, used: false };
+  localStorage.setItem('hirenepal_reset_codes', JSON.stringify(resetCodes));
+  alert(`🔐 NEW PASSWORD RESET CODE: ${code}\n\nSent to ${resetEmail}`);
+  document.getElementById('resetError2').style.display = 'none';
+  startTimer(15 * 60);
+};
+window.setNewPassword = function() {
+  const newPass = document.getElementById('newPassword').value;
+  const confirmPass = document.getElementById('confirmNewPassword').value;
+  const errorDiv = document.getElementById('resetError3');
+  if (!newPass || newPass.length < 4) { errorDiv.textContent = 'Password must be at least 4 characters'; errorDiv.style.display = 'block'; return; }
+  if (newPass !== confirmPass) { errorDiv.textContent = 'Passwords do not match'; errorDiv.style.display = 'block'; return; }
+  const users = getAllUsers();
+  const userIndex = users.findIndex(u => u.email === resetEmail);
+  if (userIndex === -1) { errorDiv.textContent = 'User not found!'; errorDiv.style.display = 'block'; return; }
+  users[userIndex].password = newPass;
+  saveAllUsers(users);
+  errorDiv.style.display = 'none';
+  alert('Password reset successful! You can now login with your new password.');
+  closeResetModal();
+  loginTab.click();
+  document.getElementById('loginUsername').value = resetEmail;
+  document.getElementById('loginPassword').value = '';
+};
+function startTimer(duration) {
+  const timerDisplay = document.getElementById('timerText');
+  let timeLeft = duration;
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerDisplay.textContent = `Code expires in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+    if (timeLeft <= 0) { clearInterval(timerInterval); timerInterval = null; timerDisplay.textContent = 'Code expired! Request new code.'; }
+    timeLeft--;
+  }, 1000);
+}
+let touchstartX = 0;
+document.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => { if (e.changedTouches[0].screenX - touchstartX > 100 && !document.querySelector('input:focus')) { if (navigator.vibrate) navigator.vibrate(20); setTimeout(() => history.back(), 200); } });
+</script>
+</body>
+</html>

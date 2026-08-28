@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard • HireNepal</title>
+  <link rel="preload" as="image" href="your-hero-image.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo"><span class="logo-icon">🏔️</span><span class="logo-text">HireNepal</span></div>
+      <div id="menuToggle" class="menu-toggle"><span></span><span></span><span></span></div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+                <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" class="nav-link"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link active"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container dashboard-container">
+    <div class="dashboard-hero"><h1>Welcome back, <span id="userGreeting"></span> 👋</h1><p style="font-size:1.3rem;">Your complete hiring command center</p></div>
+    <div class="stats-grid">
+      <div class="stat-card"><i class="fas fa-handshake" style="color:#6366f1;font-size:2.8rem;"></i><div class="stat-value" id="totalHires">0</div><div class="stat-label">Total Hires</div></div>
+      <div class="stat-card"><i class="fas fa-star" style="color:#fbbf24;font-size:2.8rem;"></i><div class="stat-value" id="totalReviews">0</div><div class="stat-label">Reviews Given</div></div>
+      <div class="stat-card"><i class="fas fa-wallet" style="color:#10b981;font-size:2.8rem;"></i><div class="stat-value" id="walletBalance">Rs. 0</div><div class="stat-label">Wallet Balance</div></div>
+      <div class="stat-card"><i class="fas fa-bookmark" style="color:#8b5cf6;font-size:2.8rem;"></i><div class="stat-value" id="totalBookmarks">0</div><div class="stat-label">Bookmarks</div></div>
+    </div>
+    <div class="main-grid">
+      <div>
+        <div class="chart-card"><h3><i class="fas fa-chart-line"></i> Hiring Trend • Last 30 Days</h3><canvas id="hiringTrendChart" height="140"></canvas></div>
+        <div class="recent-section" style="margin-top:2rem"><h3><i class="fas fa-users"></i> Recent Hires</h3><div id="recentHiresList"></div></div>
+        <div class="recent-section" style="margin-top:2rem"><h3><i class="fas fa-bookmark"></i> Recent Bookmarks</h3><div id="recentBookmarksList"></div></div>
+      </div>
+      <div>
+        <div class="chart-card"><h3><i class="fas fa-wallet"></i> Wallet Overview</h3><div id="walletInfo" style="font-size:3rem; font-weight:800; margin:1.5rem 0;"></div><button onclick="location.href='myhires.html'" class="btn btn-primary" style="width:100%">Add Money</button></div>
+        <div class="chart-card" style="margin-top:2rem"><h3><i class="fas fa-trophy"></i> Achievements</h3><div id="badgesContainer" style="display:flex; gap:12px; flex-wrap:wrap; margin-top:1rem;"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fab-container" id="fabContainer"><button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button><div class="fab-menu"><button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button><button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button><button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button><button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button></div></div>
+<footer><div class="container"><p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p><p>Made with passion in Pokhara, Nepal 🏔️</p></div></footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/userData.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+if (!isLoggedIn()) window.location.href = 'login.html';
+const user = getCurrentUser();
+document.getElementById('userGreeting').textContent = user.fullName?.split(' ')[0] || user.username;
+
+function loadDashboard() {
+  const hires = getUserHires();
+  const reviews = Object.values(getAllUserReviews()).flat().length;
+  const wallet = getUserWallet();
+  const bookmarks = getUserBookmarks();
+  const allWorkers = getAllWorkersList();
+  const bookmarkedWorkers = allWorkers.filter(w => bookmarks.includes(w.id));
+
+  document.getElementById('totalHires').textContent = hires.length;
+  document.getElementById('totalReviews').textContent = reviews;
+  document.getElementById('walletBalance').textContent = `Rs. ${wallet.balance || 0}`;
+  document.getElementById('totalBookmarks').textContent = bookmarks.length;
+  document.getElementById('walletInfo').textContent = `Rs. ${wallet.balance || 0}`;
+
+  let hiresHTML = hires.slice(0,5).map(h => `<div class="activity-item"><img src="${h.photo}" style="width:55px;height:55px;border-radius:50%;object-fit:cover;"><div><strong>${h.name}</strong><br><small>${h.rate} • ${h.location}</small></div></div>`).join('');
+  document.getElementById('recentHiresList').innerHTML = hiresHTML || '<p style="padding:2rem;text-align:center;">No recent hires yet</p>';
+
+  let bookmarksHTML = bookmarkedWorkers.slice(0,5).map(w => `<div class="activity-item"><img src="${w.photo}" style="width:55px;height:55px;border-radius:50%;object-fit:cover;"><div><strong>${w.name}</strong><br><small>${w.rate}</small></div></div>`).join('');
+  document.getElementById('recentBookmarksList').innerHTML = bookmarksHTML || '<p style="padding:2rem;text-align:center;">No bookmarks yet</p>';
+
+  document.getElementById('badgesContainer').innerHTML = `<div style="background:linear-gradient(135deg,#fef3c7,#fde047);padding:14px 22px;border-radius:9999px;"><strong>🏆 First Hire</strong></div><div style="background:linear-gradient(135deg,#dbeafe,#93c5fd);padding:14px 22px;border-radius:9999px;"><strong>⭐ Active User</strong></div><div style="background:linear-gradient(135deg,#fce7f3,#f472b6);padding:14px 22px;border-radius:9999px;color:white;"><strong>🔥 Power User</strong></div><div style="background:linear-gradient(135deg,#e0e7ff,#a5b4fc);padding:14px 22px;border-radius:9999px;"><strong>📊 Data Explorer</strong></div>`;
+
+  const ctx = document.getElementById('hiringTrendChart');
+  if (ctx) new Chart(ctx, { type:'line', data:{ labels:['Week 1','Week 2','Week 3','Week 4'], datasets:[{ label:'Hires', data:[3,6,9,15], borderColor:'#6366f1', backgroundColor:'rgba(99,102,241,0.15)', tension:0.4, borderWidth:5, pointRadius:6 }] }, options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true }, x:{ grid:{ display:false } } } } });
+}
+document.addEventListener('DOMContentLoaded', loadDashboard);
+</script>
+</body>
+</html>

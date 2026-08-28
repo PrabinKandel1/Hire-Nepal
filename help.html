@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help Center - HireNepal</title>
+  <meta name="description" content="Hire local professionals in Pokhara - Fast, Trusted, Community-driven">
+  <link rel="preload" as="image" href="your-hero-image.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo"><span class="logo-icon">🏔️</span><span class="logo-text">HireNepal</span></div>
+      <div id="menuToggle" class="menu-toggle"><span></span><span></span><span></span></div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+                <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">Help Center</h1>
+    <div class="help-search-wrapper">
+      <i class="fas fa-search help-search-icon"></i>
+      <input type="text" class="help-search-input" id="helpSearch" placeholder="Search for help...">
+      <div class="help-search-stats"><span id="faqCount">12</span> answers available</div>
+    </div>
+    <div class="help-categories">
+      <div class="category-card" onclick="filterFAQs('general')"><i class="fas fa-info-circle"></i><h3>General</h3></div>
+      <div class="category-card" onclick="filterFAQs('account')"><i class="fas fa-user"></i><h3>Account</h3></div>
+      <div class="category-card" onclick="filterFAQs('hiring')"><i class="fas fa-handshake"></i><h3>Hiring</h3></div>
+      <div class="category-card" onclick="filterFAQs('payment')"><i class="fas fa-credit-card"></i><h3>Payment</h3></div>
+    </div>
+    <div class="faq-section">
+      <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+      <div class="faq-list" id="faqList">
+        <div class="faq-item" data-category="general"><div class="faq-question" onclick="toggleFAQ(this)"><span>What is HireNepal?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">HireNepal is a platform that connects you with skilled local professionals in Pokhara. Whether you need a web developer, plumber, tutor, or any other service, you can find trusted local experts here.</div></div>
+        <div class="faq-item" data-category="general"><div class="faq-question" onclick="toggleFAQ(this)"><span>Is HireNepal free to use?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Yes! Creating an account, browsing professionals, and posting jobs is completely free. You only pay the professional directly for their services.</div></div>
+        <div class="faq-item" data-category="account"><div class="faq-question" onclick="toggleFAQ(this)"><span>How do I create an account?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Click on "Login" in the navigation menu, then select "Create Account". Fill in your details and you're ready to go!</div></div>
+        <div class="faq-item" data-category="account"><div class="faq-question" onclick="toggleFAQ(this)"><span>I forgot my password. What should I do?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Since we're currently in demo mode, you can create a new account with a different username. In the future, we'll add password recovery via email.</div></div>
+        <div class="faq-item" data-category="hiring"><div class="faq-question" onclick="toggleFAQ(this)"><span>How do I hire someone?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Browse professionals on the "Find Talent" page. When you find someone you like, click "View Profile" then "Hire / Contact Now" to message them directly via WhatsApp.</div></div>
+        <div class="faq-item" data-category="hiring"><div class="faq-question" onclick="toggleFAQ(this)"><span>What is "My Hires"?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">"My Hires" is where all professionals you've contacted are saved. You can message them again, view their profile, or remove them from your list.</div></div>
+        <div class="faq-item" data-category="payment"><div class="faq-question" onclick="toggleFAQ(this)"><span>How much do professionals charge?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Each professional sets their own rates, which are displayed on their profile. Rates in Pokhara typically range from Rs. 400 to Rs. 2000 per hour depending on the service.</div></div>
+        <div class="faq-item" data-category="payment"><div class="faq-question" onclick="toggleFAQ(this)"><span>How do I pay?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">Payment is handled directly between you and the professional. We recommend agreeing on the price and payment method before work begins. Common options include cash, eSewa, Khalti, or bank transfer.</div></div>
+        <div class="faq-item" data-category="payment"><div class="faq-question" onclick="toggleFAQ(this)"><span>Is there any commission fee?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">No! HireNepal is completely free. There are no commission fees or hidden charges. You pay the professional directly.</div></div>
+      </div>
+    </div>
+    <div class="contact-support">
+      <h3><i class="fas fa-headset"></i> Still Need Help?</h3>
+      <p>Can't find what you're looking for? Contact our support team directly.</p>
+      <div class="support-options">
+        <a href="mailto:kandelprabin09@gmail.com" class="btn btn-primary"><i class="fas fa-envelope"></i> kandelprabin09@gmail.com</a>
+        <a href="tel:+9779845513093" class="btn btn-primary"><i class="fas fa-phone"></i> Call +977 9845513093</a>
+      </div>
+      <p style="margin-top:20px; font-size:0.9rem; opacity:0.9;"><i class="fas fa-clock"></i> Response time: Within 24 hours</p>
+    </div>
+  </div>
+</section>
+
+<div class="fab-container" id="fabContainer">
+  <button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button>
+  <div class="fab-menu">
+    <button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button>
+    <button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button>
+    <button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button>
+    <button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button>
+  </div>
+</div>
+
+<footer><div class="container"><p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p><p>Made with passion in Pokhara, Nepal 🏔️</p></div></footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="js/main.js"></script>
+<script>
+function toggleFAQ(element) {
+  const faqItem = element.closest('.faq-item');
+  faqItem.classList.toggle('open');
+  const icon = element.querySelector('i');
+  if (faqItem.classList.contains('open')) icon.classList.remove('fa-chevron-down'), icon.classList.add('fa-chevron-up');
+  else icon.classList.remove('fa-chevron-up'), icon.classList.add('fa-chevron-down');
+}
+function filterFAQs(category) {
+  document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  const faqs = document.querySelectorAll('.faq-item');
+  let visibleCount = 0;
+  faqs.forEach(faq => {
+    if (faq.dataset.category === category) { faq.style.display = 'block'; visibleCount++; }
+    else faq.style.display = 'none';
+  });
+  document.getElementById('faqCount').textContent = visibleCount;
+}
+let searchTimeout;
+document.getElementById('helpSearch').addEventListener('input', function(e) {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    const searchTerm = e.target.value.toLowerCase();
+    const faqs = document.querySelectorAll('.faq-item');
+    let visibleCount = 0;
+    faqs.forEach(faq => {
+      const question = faq.querySelector('.faq-question span').textContent.toLowerCase();
+      const answer = faq.querySelector('.faq-answer').textContent.toLowerCase();
+      if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+        faq.style.display = 'block';
+        visibleCount++;
+      } else faq.style.display = 'none';
+    });
+    document.getElementById('faqCount').textContent = visibleCount;
+    if (searchTerm.length > 2) {
+      faqs.forEach(faq => {
+        if (faq.style.display !== 'none') {
+          faq.classList.add('open');
+          const icon = faq.querySelector('.faq-question i');
+          if (icon) icon.classList.remove('fa-chevron-down'), icon.classList.add('fa-chevron-up');
+        }
+      });
+    }
+  }, 300);
+});
+document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('faqCount').textContent = document.querySelectorAll('.faq-item').length;
+});
+let touchstartX = 0;
+document.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+  const touchendX = e.changedTouches[0].screenX;
+  if (touchendX - touchstartX > 100 && !document.querySelector('input:focus, textarea:focus, select:focus')) {
+    if (navigator.vibrate) navigator.vibrate(20);
+    if (typeof showToast === 'function') showToast('⬅️ Going back...', '#6366f1');
+    setTimeout(() => history.back(), 200);
+  }
+});
+</script>
+</body>
+</html>

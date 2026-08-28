@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Jobs – HireNepal</title>
+  <meta name="description" content="Find verified job posts from local employers in Pokhara. Apply directly to trusted job opportunities.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo"><span class="logo-icon">🏔️</span><span class="logo-text">HireNepal</span></div>
+      <div id="menuToggle" class="menu-toggle"><span></span><span></span><span></span></div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+        <a href="jobs.html" class="nav-link active"><i class="fas fa-briefcase"></i><span>Browse Jobs</span></a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <h1 class="section-title"><i class="fas fa-briefcase"></i> Available Jobs in Pokhara</h1>
+    <div class="filter-bar">
+      <div class="search-jobs"><i class="fas fa-search"></i><input type="text" id="searchJobs" placeholder="Search by title, category, location..."></div>
+      <div class="category-filters">
+        <button class="category-chip active" data-cat="all">All</button>
+        <button class="category-chip" data-cat="Development">💻 Development</button>
+        <button class="category-chip" data-cat="Home Services">🔧 Home Services</button>
+        <button class="category-chip" data-cat="Creative">🎨 Creative</button>
+        <button class="category-chip" data-cat="Education">📚 Education</button>
+        <button class="category-chip" data-cat="Other">📌 Other</button>
+      </div>
+      <div class="jobs-count" id="jobsCount">0 jobs found</div>
+    </div>
+    <div id="jobsGrid" class="grid"></div>
+    <div id="emptyJobs" class="empty-jobs" style="display: none;"><i class="fas fa-briefcase-slash"></i><h3>No jobs found</h3><p>No matching job posts at the moment. Be the first to post a job!</p><a href="contact.html" class="btn btn-primary" style="margin-top: 1rem;">📝 Post a Job</a></div>
+  </div>
+</section>
+
+<div class="fab-container" id="fabContainer">
+  <button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button>
+  <div class="fab-menu">
+    <button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button>
+    <button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button>
+    <button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button>
+    <button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button>
+  </div>
+</div>
+
+<footer><div class="container"><p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p><p>Made with passion in Pokhara, Nepal 🏔️</p></div></footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="js/main.js"></script>
+<script src="js/data.js"></script>
+<script src="js/userData.js"></script>
+
+<script>
+function getApprovedJobs() { return JSON.parse(localStorage.getItem('hirenepal_approved_jobs') || '[]'); }
+function isUserLoggedIn() { return !!localStorage.getItem('currentUserId') || localStorage.getItem('isLoggedIn') === 'true'; }
+function showToastMessage(message, bgColor) { if (typeof showToast === 'function') showToast(message, bgColor); else alert(message); }
+function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+
+let currentJobs = [];
+let currentSearchTerm = '';
+let currentCategory = 'all';
+
+function renderJobs() {
+  let filtered = [...currentJobs];
+  if (currentSearchTerm.trim() !== '') {
+    const term = currentSearchTerm.toLowerCase();
+    filtered = filtered.filter(job => job.jobTitle.toLowerCase().includes(term) || job.category.toLowerCase().includes(term) || job.location.toLowerCase().includes(term) || job.description.toLowerCase().includes(term));
+  }
+  if (currentCategory !== 'all') filtered = filtered.filter(job => job.category === currentCategory);
+  document.getElementById('jobsCount').innerHTML = `${filtered.length} job${filtered.length !== 1 ? 's' : ''} found`;
+  const grid = document.getElementById('jobsGrid');
+  const emptyDiv = document.getElementById('emptyJobs');
+  if (filtered.length === 0) { grid.innerHTML = ''; emptyDiv.style.display = 'block'; return; }
+  emptyDiv.style.display = 'none';
+  grid.innerHTML = '';
+  filtered.forEach(job => {
+    const jobCard = document.createElement('div');
+    jobCard.className = 'job-card';
+    const submitDate = new Date(job.submittedAt);
+    const formattedDate = submitDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    const categoryIcons = { 'Development':'💻', 'Home Services':'🔧', 'Creative':'🎨', 'Education':'📚', 'Other':'📌' };
+    const catIcon = categoryIcons[job.category] || '📋';
+    jobCard.innerHTML = `<div class="job-badge">${catIcon} ${escapeHtml(job.category)}</div><h3 class="job-title">${escapeHtml(job.jobTitle)}</h3><div class="job-meta"><span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(job.location)}</span><span><i class="fas fa-money-bill-wave"></i> ${escapeHtml(job.amount || 'Negotiable')}</span><span><i class="far fa-calendar-alt"></i> ${formattedDate}</span></div><div class="job-description">${escapeHtml(job.description.substring(0,200))}${job.description.length > 200 ? '...' : ''}</div><button class="btn-apply" data-job-title="${escapeHtml(job.jobTitle)}" data-job-id="${job.id}"><i class="fas fa-paper-plane"></i> Apply / Contact</button>`;
+    grid.appendChild(jobCard);
+  });
+  document.querySelectorAll('.btn-apply').forEach(btn => btn.addEventListener('click', function(e) { handleApply(this.getAttribute('data-job-title'), this.getAttribute('data-job-id')); }));
+}
+function handleApply(jobTitle, jobId) {
+  if (!isUserLoggedIn()) { if (confirm('You need to log in to apply for jobs. Go to login page?')) window.location.href = 'login.html'; return; }
+  const message = `Hello, I'm interested in the job "${jobTitle}" posted on HireNepal. Please contact me for further discussion.`;
+  const phone = '9779845513093';
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+  showToastMessage('📱 Opening WhatsApp...', '#10b981');
+}
+function loadJobs() { currentJobs = getApprovedJobs(); renderJobs(); }
+document.getElementById('searchJobs').addEventListener('input', function(e) { currentSearchTerm = e.target.value; renderJobs(); });
+document.querySelectorAll('.category-chip').forEach(chip => chip.addEventListener('click', function() { document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active')); this.classList.add('active'); currentCategory = this.getAttribute('data-cat'); renderJobs(); }));
+window.addEventListener('storage', function(e) { if (e.key === 'hirenepal_approved_jobs') loadJobs(); });
+loadJobs();
+</script>
+</body>
+</html>

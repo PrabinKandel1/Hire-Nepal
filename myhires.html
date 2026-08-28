@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Hires – HireNepal</title>
+  <meta name="description" content="Hire local professionals in Pokhara - Fast, Trusted, Community-driven">
+  <link rel="preload" as="image" href="your-hero-image.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">
+        <span class="logo-icon">🏔️</span>
+        <span class="logo-text">HireNepal</span>
+      </div>
+      <div id="menuToggle" class="menu-toggle">
+        <span></span><span></span><span></span>
+      </div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+                <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container" style="max-width:1100px;">
+    <h1 class="section-title">My Hires</h1>
+
+    <div class="payment-summary" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding:2rem; border-radius:var(--radius); color:white; margin-bottom:2.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h3 style="color:white; margin-bottom:0.5rem;"><i class="fas fa-wallet"></i> Total Spent</h3>
+        <div style="font-size:2.5rem; font-weight:800;" id="totalSpentSummary">Rs. 0</div>
+      </div>
+      <div style="display:flex; gap:1rem;">
+        <button onclick="showPaymentModal()" class="btn" style="background:white; color:var(--primary);">
+          <i class="fas fa-plus-circle"></i> Add Money
+        </button>
+        <button onclick="showPaymentMethods()" class="btn" style="background:rgba(255,255,255,0.2); color:white; border:1px solid rgba(255,255,255,0.3);">
+          <i class="fas fa-credit-card"></i> Payment Methods
+        </button>
+      </div>
+    </div>
+
+    <div id="hiresContainer" class="grid" style="gap:2.4rem;"></div>
+
+    <div id="noHires" style="display:none;">
+      <div class="empty-state">
+        <i class="fas fa-briefcase"></i>
+        <h2>No hires yet</h2>
+        <p>Start your journey by connecting with talented professionals in Pokhara!</p>
+        <div class="empty-state-actions">
+          <a href="workers.html" class="btn btn-primary"><i class="fas fa-search"></i> Browse Professionals</a>
+          <a href="contact.html" class="btn btn-secondary"><i class="fas fa-plus-circle"></i> Post a Job</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="bookmarks-section" id="bookmarksSection">
+      <div class="bookmarks-header">
+        <i class="fas fa-bookmark"></i>
+        <h2>My Bookmarks</h2>
+        <span id="bookmarkCount">0</span>
+      </div>
+      <div id="bookmarksContainer" class="bookmarks-grid"></div>
+      <div id="noBookmarks" style="text-align:center; padding:3rem; display:none;">
+        <i class="fas fa-bookmark" style="font-size:4rem; color:var(--text-light); opacity:0.3; margin-bottom:1rem;"></i>
+        <p style="color:var(--text-light); font-size:1.2rem;">No bookmarks yet. Click the ★ star on worker profiles to save them here!</p>
+        <a href="workers.html" class="btn btn-primary" style="margin-top:1rem; padding:0.8rem 2rem;">Browse Workers</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Message Modal -->
+<div id="messageModal" class="message-modal">
+  <div class="message-box">
+    <h3>Message <span id="modalWorkerName"></span></h3>
+    <textarea id="messageText" placeholder="Hello! I'm interested in your services..."></textarea>
+    <div class="message-actions">
+      <button onclick="closeMessageModal()" class="btn" style="background:#6b7280; color:white; padding:1rem 2rem;">Cancel</button>
+      <button onclick="sendMessage()" class="btn btn-primary" style="padding:1rem 2.4rem;">Send via WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div id="paymentModal" class="payment-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(10px); z-index:2000; align-items:center; justify-content:center;">
+  <div class="payment-modal-content" style="background:var(--bg-card); padding:2.5rem; border-radius:var(--radius-lg); max-width:500px; width:90%; position:relative;">
+    <button onclick="closePaymentModal()" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-light);"><i class="fas fa-times"></i></button>
+    <h2 style="color:var(--primary); margin-bottom:1.5rem;"><i class="fas fa-plus-circle"></i> Add Money</h2>
+    <div class="amount-presets" style="display:grid; grid-template-columns:repeat(4,1fr); gap:0.8rem; margin-bottom:1.5rem;">
+      <button onclick="setAmount(500)" class="preset-btn" style="padding:1rem;">Rs. 500</button>
+      <button onclick="setAmount(1000)" class="preset-btn" style="padding:1rem;">Rs. 1000</button>
+      <button onclick="setAmount(2000)" class="preset-btn" style="padding:1rem;">Rs. 2000</button>
+      <button onclick="setAmount(5000)" class="preset-btn" style="padding:1rem;">Rs. 5000</button>
+    </div>
+    <div style="margin-bottom:1.5rem;">
+      <label style="display:block; margin-bottom:0.5rem; color:var(--text-light);">Custom Amount</label>
+      <input type="number" id="customAmount" placeholder="Enter amount" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius); font-size:1.1rem; background:var(--bg-card); color:var(--text);">
+    </div>
+    <div style="margin-bottom:1.5rem;">
+      <label style="display:block; margin-bottom:0.5rem; color:var(--text-light);">Select Payment Method</label>
+      <select id="paymentMethod" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius); background:var(--bg-card); color:var(--text);">
+        <option value="esewa">eSewa</option>
+        <option value="khalti">Khalti</option>
+        <option value="bank">Bank Transfer</option>
+        <option value="cash">Cash</option>
+      </select>
+    </div>
+    <button onclick="processPayment()" class="btn btn-primary" style="width:100%; padding:1.2rem; font-size:1.1rem;"><i class="fas fa-check-circle"></i> Add Money</button>
+  </div>
+</div>
+
+<!-- Review Modal -->
+<div id="reviewModal" class="review-modal">
+  <div class="review-box">
+    <h2><i class="fas fa-star" style="color: #fbbf24;"></i> Leave a Review</h2>
+    <div class="worker-name" id="reviewWorkerName"></div>
+    <div class="star-rating" id="starRating">
+      <i class="far fa-star" data-rating="1"></i>
+      <i class="far fa-star" data-rating="2"></i>
+      <i class="far fa-star" data-rating="3"></i>
+      <i class="far fa-star" data-rating="4"></i>
+      <i class="far fa-star" data-rating="5"></i>
+    </div>
+    <textarea id="reviewText" placeholder="Share your experience working with this professional... (optional)"></textarea>
+    <div class="review-actions">
+      <button onclick="closeReviewModal()" class="btn" style="background:#6b7280; color:white;">Cancel</button>
+      <button onclick="submitReview()" class="btn btn-primary" id="submitReviewBtn">Submit Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" style="display:none; position:fixed; top:24px; right:24px; padding:1rem 2rem; border-radius:12px; background:#10b981; color:white; z-index:9999; box-shadow:0 6px 20px rgba(0,0,0,0.35); font-weight:500;"></div>
+
+<!-- Floating Action Button -->
+<div class="fab-container" id="fabContainer">
+  <button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button>
+  <div class="fab-menu">
+    <button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button>
+    <button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button>
+    <button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button>
+    <button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button>
+  </div>
+</div>
+
+<footer style="background:var(--bg-card); border-top:1px solid var(--border); padding:2.5rem 0; margin-top:4rem;">
+  <div class="container" style="text-align:center; color:var(--text-light); font-size:0.95rem;">
+    <p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p>
+    <p style="margin-top:0.5rem;">Made with passion in Pokhara, Nepal 🏔️</p>
+  </div>
+</footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/userData.js"></script>
+
+<script>
+// Check if user is logged in
+if (!isLoggedIn()) window.location.href = 'login.html';
+
+const container = document.getElementById('hiresContainer');
+const noHiresMsg = document.getElementById('noHires');
+let currentWorkerId = null;
+let selectedAmount = 0;
+let currentReviewWorkerId = null;
+let currentRating = 0;
+
+const hires = getUserHires();
+const currentUser = getCurrentUser();
+
+// ========== REVIEW FUNCTIONS ==========
+function getWorkerReviews(workerId) { return getUserReviews(workerId); }
+function hasUserReviewed(workerId) { const reviews = getWorkerReviews(workerId); const currentUserId = getCurrentUserId(); return reviews.some(r => r.userId === currentUserId); }
+function getUserReviewId(workerId) { const reviews = getWorkerReviews(workerId); const currentUserId = getCurrentUserId(); const userReview = reviews.find(r => r.userId === currentUserId); return userReview ? userReview.id : null; }
+function getAverageRating(workerId) { const reviews = getWorkerReviews(workerId); if (reviews.length === 0) return null; const sum = reviews.reduce((acc, r) => acc + r.stars, 0); return (sum / reviews.length).toFixed(1); }
+
+function openReviewModal(workerId, workerName) {
+  currentReviewWorkerId = workerId;
+  document.getElementById('reviewWorkerName').textContent = `Reviewing: ${workerName}`;
+  document.getElementById('reviewText').value = '';
+  currentRating = 0;
+  document.querySelectorAll('.star-rating i').forEach(star => star.className = 'far fa-star');
+  document.getElementById('reviewModal').style.display = 'flex';
+}
+function closeReviewModal() { document.getElementById('reviewModal').style.display = 'none'; currentReviewWorkerId = null; currentRating = 0; }
+
+document.querySelectorAll('.star-rating i').forEach(star => {
+  star.addEventListener('click', function() {
+    const rating = parseInt(this.dataset.rating);
+    currentRating = rating;
+    document.querySelectorAll('.star-rating i').forEach((s, index) => {
+      s.className = index < rating ? 'fas fa-star' : 'far fa-star';
+    });
+  });
+  star.addEventListener('mouseover', function() {
+    const rating = parseInt(this.dataset.rating);
+    document.querySelectorAll('.star-rating i').forEach((s, index) => {
+      s.className = index < rating ? 'fas fa-star' : 'far fa-star';
+    });
+  });
+  star.addEventListener('mouseout', function() {
+    document.querySelectorAll('.star-rating i').forEach((s, index) => {
+      s.className = index < currentRating ? 'fas fa-star' : 'far fa-star';
+    });
+  });
+});
+
+function submitReview() {
+  if (currentRating === 0) { showToast('Please select a rating', '#ef4444'); return; }
+  const reviewText = document.getElementById('reviewText').value.trim();
+  const newReview = { id: Date.now(), stars: currentRating, text: reviewText || 'No comment provided', date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }), timestamp: new Date().toISOString() };
+  addUserReview(currentReviewWorkerId, newReview);
+  showToast(`✅ Thank you for your ${currentRating}-star review!`, '#10b981');
+  closeReviewModal();
+  setTimeout(() => location.reload(), 1500);
+}
+
+function deleteReview(workerId, reviewId, event) {
+  if (event) event.stopPropagation();
+  if (!confirm('Are you sure you want to delete your review? This action cannot be undone.')) return;
+  deleteUserReview(workerId, reviewId);
+  showToast('✅ Your review has been deleted', '#ef4444');
+  setTimeout(() => location.reload(), 1500);
+}
+
+// ========== WHATSAPP TRACKING ==========
+function trackWhatsAppClick() { incrementWhatsAppClicks(); }
+
+// ========== PAYMENT FUNCTIONS ==========
+const PAYMENT_KEY = 'hirenepal_payments';
+const WALLET_KEY = 'hirenepal_wallet';
+if (!localStorage.getItem(WALLET_KEY)) localStorage.setItem(WALLET_KEY, JSON.stringify({ balance: 0, transactions: [] }));
+
+function selectPayment(element, method, workerId, workerName) {
+  element.closest('.payment-options-grid').querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+  element.classList.add('selected');
+  const payments = JSON.parse(localStorage.getItem(PAYMENT_KEY) || '{}');
+  payments[workerId] = { method, workerName, date: new Date().toISOString() };
+  localStorage.setItem(PAYMENT_KEY, JSON.stringify(payments));
+  showToast(`Payment method set to ${method}`, '#10b981');
+}
+
+function processPaymentWithWorker(workerId, amount, method) {
+  const wallet = JSON.parse(localStorage.getItem(WALLET_KEY));
+  wallet.transactions.unshift({ id: Date.now(), type: 'payment', amount: -amount, workerId, date: new Date().toISOString(), status: 'completed' });
+  localStorage.setItem(WALLET_KEY, JSON.stringify(wallet));
+  showToast(`Payment of Rs. ${amount} completed!`, '#10b981');
+  updateTotalSpent();
+}
+
+function showPaymentModal() { document.getElementById('paymentModal').style.display = 'flex'; }
+function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; document.getElementById('customAmount').value = ''; }
+function setAmount(amount) { selectedAmount = amount; document.getElementById('customAmount').value = amount; document.querySelectorAll('.preset-btn').forEach(btn => { btn.style.background = 'var(--bg-soft)'; btn.style.color = 'var(--text)'; }); event.target.style.background = 'var(--primary)'; event.target.style.color = 'white'; }
+function processPayment() {
+  const amount = parseInt(document.getElementById('customAmount').value);
+  const method = document.getElementById('paymentMethod').value;
+  if (!amount || amount < 10) { showToast('Please enter a valid amount', '#ef4444'); return; }
+  const wallet = JSON.parse(localStorage.getItem(WALLET_KEY));
+  wallet.balance += amount;
+  wallet.transactions.unshift({ id: Date.now(), type: 'deposit', amount, method, date: new Date().toISOString(), status: 'completed' });
+  localStorage.setItem(WALLET_KEY, JSON.stringify(wallet));
+  showToast(`Rs. ${amount} added to wallet via ${method}!`, '#10b981');
+  closePaymentModal();
+  updateTotalSpent();
+}
+function showPaymentMethods() { alert('Available Payment Methods:\n\n• eSewa\n• Khalti\n• Bank Transfer\n• Cash'); }
+
+function updateTotalSpent() {
+  let total = 0;
+  hires.forEach(h => {
+    const rateMatch = h.rate.match(/\d+/g);
+    if (rateMatch) { const avgRate = (parseInt(rateMatch[0]) + (parseInt(rateMatch[1]) || parseInt(rateMatch[0]))) / 2; total += avgRate * 2; }
+  });
+  document.getElementById('totalSpentSummary').textContent = `Rs. ${total.toLocaleString()}`;
+  const totalSpentElement = document.getElementById('totalSpent');
+  if (totalSpentElement) totalSpentElement.textContent = `Rs. ${total.toLocaleString()}`;
+}
+
+// ========== BOOKMARK FUNCTIONS ==========
+function loadBookmarks() {
+  const bookmarks = getUserBookmarks();
+  const allWorkers = getAllWorkersList();
+  const bookmarksContainer = document.getElementById('bookmarksContainer');
+  const noBookmarks = document.getElementById('noBookmarks');
+  const bookmarkCount = document.getElementById('bookmarkCount');
+  bookmarkCount.textContent = bookmarks.length;
+  const bookmarkedWorkers = allWorkers.filter(w => bookmarks.includes(w.id));
+  if (bookmarkedWorkers.length === 0) { bookmarksContainer.innerHTML = ''; noBookmarks.style.display = 'block'; return; }
+  noBookmarks.style.display = 'none';
+  bookmarksContainer.innerHTML = '';
+  bookmarkedWorkers.forEach(worker => {
+    const card = document.createElement('div');
+    card.className = 'bookmark-card';
+    card.innerHTML = `<button class="remove-bookmark" onclick="removeBookmark(${worker.id}, event)" title="Remove bookmark"><i class="fas fa-times-circle"></i></button><img src="${worker.photo}" alt="${worker.name}"><h4>${worker.name}</h4><div class="skills">${worker.skills.slice(0,2).join(' • ')}</div><div class="rating">★ ${worker.rating.toFixed(1)}</div><div class="bookmark-actions"><a href="worker-detail.html?id=${worker.id}" class="btn btn-primary" style="padding:0.5rem 1rem; font-size:0.9rem;"><i class="fas fa-eye"></i> View</a><button onclick="quickBookmarkHire(${worker.id}, '${worker.name.replace(/'/g, "\\'")}')" class="btn btn-success" style="padding:0.5rem 1rem; font-size:0.9rem; background:#10b981;"><i class="fas fa-bolt"></i> Hire</button></div>`;
+    bookmarksContainer.appendChild(card);
+  });
+}
+function removeBookmark(workerId, event) { event.stopPropagation(); toggleUserBookmark(workerId); showToast('❌ Removed from bookmarks', '#ef4444'); loadBookmarks(); }
+function quickBookmarkHire(workerId, workerName) {
+  const allWorkers = getAllWorkersList();
+  const worker = allWorkers.find(w => w.id === workerId);
+  if (!worker) return;
+  const added = addUserHire({ id: worker.id, name: worker.name, photo: worker.photo, rate: worker.rate, skills: worker.skills, location: worker.location, hiredDate: new Date().toLocaleDateString("en-GB"), timestamp: new Date().toISOString() });
+  if (added) { showToast(`✅ ${workerName} added to hires!`, '#10b981'); setTimeout(() => location.reload(), 1000); }
+  else showToast(`${workerName} is already in your hires`, '#f59e0b');
+}
+
+// ========== MESSAGE MODAL ==========
+function openMessageModal(id, name) { currentWorkerId = id; document.getElementById('modalWorkerName').textContent = name; document.getElementById('messageText').value = ''; document.getElementById('messageModal').style.display = 'flex'; }
+function closeMessageModal() { document.getElementById('messageModal').style.display = 'none'; currentWorkerId = null; }
+function sendMessage() {
+  const text = document.getElementById('messageText').value.trim();
+  if (!text) { alert("Please write something first."); return; }
+  const allWorkers = getAllWorkersList();
+  const worker = allWorkers.find(w => w.id === currentWorkerId);
+  if (worker && worker.phone) { const phone = "977" + worker.phone.replace(/\D/g, ''); const fullMsg = `${text}\n\nSent from HireNepal`; window.open(`https://wa.me/${phone}?text=${encodeURIComponent(fullMsg)}`, '_blank'); showToast("Opening WhatsApp...", "#10b981"); trackWhatsAppClick(); }
+  else alert("Phone number not available for this contact.");
+  closeMessageModal();
+}
+
+function removeHire(id) {
+  if (confirm("🗑️ Remove this professional from your list?\n\nThis action cannot be undone.")) {
+    const btn = event.target;
+    btn.textContent = 'Removing...';
+    btn.disabled = true;
+    setTimeout(() => { removeUserHire(id); showToast("✅ Removed from hires", "#ef4444"); setTimeout(() => location.reload(), 800); }, 300);
+  }
+}
+
+function showToast(message, bg = '#10b981') {
+  const t = document.getElementById('toast');
+  t.textContent = message;
+  t.style.background = bg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2800);
+}
+
+// ========== LOAD HIRES ==========
+if (hires.length === 0) { noHiresMsg.style.display = 'block'; } else {
+  hires.forEach(h => {
+    const allWorkers = getAllWorkersList();
+    const workerFull = allWorkers.find(w => w.id === h.id) || h;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.padding = '2rem';
+    const savedPayments = JSON.parse(localStorage.getItem(PAYMENT_KEY) || '{}');
+    const savedPayment = savedPayments[h.id];
+    const hasReviewed = hasUserReviewed(h.id);
+    const userReviewId = getUserReviewId(h.id);
+    const avgRating = getAverageRating(h.id);
+    const reviewCount = getWorkerReviews(h.id).length;
+
+    let actionButtonsHTML = '';
+    if (!hasReviewed) {
+      actionButtonsHTML = `<div class="action-row"><button onclick="openMessageModal(${h.id}, '${h.name.replace(/'/g, "\\'")}')" class="btn btn-primary"><i class="fas fa-comment"></i> Message</button><a href="worker-detail.html?id=${h.id}" class="btn" style="background:var(--primary-light); color:white; text-decoration:none;"><i class="fas fa-user"></i> Profile</a></div><div class="review-delete-row"><button onclick="openReviewModal(${h.id}, '${h.name.replace(/'/g, "\\'")}')" class="btn review-btn" style="background:#f59e0b; color:white;"><i class="fas fa-star"></i> Review</button><button onclick="removeHire(${h.id})" class="btn delete-btn" style="background:#ef4444;"><i class="fas fa-trash"></i> Remove</button></div>`;
+    } else {
+      actionButtonsHTML = `<div class="action-row"><button onclick="openMessageModal(${h.id}, '${h.name.replace(/'/g, "\\'")}')" class="btn btn-primary"><i class="fas fa-comment"></i> Message</button><a href="worker-detail.html?id=${h.id}" class="btn" style="background:var(--primary-light); color:white; text-decoration:none;"><i class="fas fa-user"></i> Profile</a></div><div class="reviewed-row"><button class="btn reviewed-btn" disabled style="background:#10b981; color:white; opacity:0.8;"><i class="fas fa-check"></i> Reviewed</button><button onclick="deleteReview(${h.id}, ${userReviewId}, event)" class="btn delete-btn" style="background:#ef4444;"><i class="fas fa-trash"></i> Delete Review</button><button onclick="removeHire(${h.id})" class="btn remove-btn" style="background:#ef4444;"><i class="fas fa-trash"></i> Remove</button></div>`;
+    }
+
+    card.innerHTML = `
+      <div style="text-align:center;">
+        <img src="${workerFull.photo}" alt="${workerFull.name}" loading="lazy" style="width:140px; height:140px; border-radius:50%; object-fit:cover; border:4px solid var(--primary-light); margin-bottom:1.2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <h3 style="margin-bottom:0; font-size:1.5rem;">${workerFull.name}</h3>
+          <button onclick="copyPhoneNumber('${workerFull.phone || ''}', '${workerFull.name}')" class="copy-phone-btn" style="width:35px; height:35px; font-size:0.8rem;" title="Copy phone number"><i class="fas fa-copy"></i></button>
+        </div>
+        <div class="rating-display">
+          ${avgRating ? `${'<i class="fas fa-star"></i>'.repeat(Math.floor(parseFloat(avgRating)))}${parseFloat(avgRating) % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : ''}<span>${avgRating} (${reviewCount} review${reviewCount !== 1 ? 's' : ''})</span>` : `<span style="color:var(--text-light); font-size:0.9rem;">No reviews yet</span>`}
+          ${hasReviewed ? '<span class="user-review-indicator"><i class="fas fa-check"></i> You reviewed</span>' : ''}
+        </div>
+        <p style="color:var(--primary); font-weight:600; margin:0.5rem 0; font-size:1.2rem;">${workerFull.rate}</p>
+        <p style="color:var(--text-light); margin-bottom:0.8rem; font-size:0.95rem;"><i class="fas fa-map-marker-alt"></i> ${workerFull.location}</p>
+        <div class="hire-card-skills" style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin:1rem 0;">${workerFull.skills.map(skill => `<span class="skill-tag" style="background:var(--primary-soft); color:var(--primary); padding:0.3rem 1rem; border-radius:50px; font-size:0.85rem;">${skill}</span>`).join('')}</div>
+        <div class="payment-badge"><i class="fas fa-check-circle"></i><span>Payment Verified</span></div>
+        <p style="color:var(--text-light); font-size:0.9rem; margin-bottom:1rem;"><i class="far fa-calendar-alt"></i> Contacted: ${h.hiredDate}</p>
+        <div class="payment-options"><div class="payment-options-title"><i class="fas fa-credit-card"></i><span>Pay with</span></div><div class="payment-options-grid"><div class="payment-option ${savedPayment?.method === 'cash' ? 'selected' : ''}" onclick="selectPayment(this, 'cash', ${h.id}, '${h.name}')"><i class="fas fa-money-bill-wave"></i><span>Cash</span></div><div class="payment-option ${savedPayment?.method === 'esewa' ? 'selected' : ''}" onclick="selectPayment(this, 'esewa', ${h.id}, '${h.name}')"><i class="fas fa-mobile-alt"></i><span>eSewa</span></div><div class="payment-option ${savedPayment?.method === 'khalti' ? 'selected' : ''}" onclick="selectPayment(this, 'khalti', ${h.id}, '${h.name}')"><i class="fas fa-qrcode"></i><span>Khalti</span></div><div class="payment-option ${savedPayment?.method === 'bank' ? 'selected' : ''}" onclick="selectPayment(this, 'bank', ${h.id}, '${h.name}')"><i class="fas fa-university"></i><span>Bank</span></div></div>${savedPayment ? `<p style="font-size:0.8rem; color:var(--primary); margin-top:0.5rem;"><i class="fas fa-check-circle"></i> ${savedPayment.method} selected</p>` : ''}</div>
+        <div class="hire-card-actions">${actionButtonsHTML}</div>
+        <button onclick="quickPay(${h.id}, '${h.name}', '${workerFull.rate}')" class="quick-pay-btn" style="width:100%; margin-top:1rem; padding:0.8rem; background:#10b981; color:white; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; gap:0.5rem;"><i class="fas fa-bolt"></i> Quick Pay</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function quickPay(id, name, rate) {
+  const amount = parseInt(prompt(`Enter amount to pay ${name}:`, rate.match(/\d+/)?.[0] || '1000'));
+  if (!amount) return;
+  const savedPayments = JSON.parse(localStorage.getItem(PAYMENT_KEY) || '{}');
+  const paymentMethod = savedPayments[id]?.method || 'cash';
+  if (confirm(`Pay Rs. ${amount} to ${name} via ${paymentMethod}?`)) processPaymentWithWorker(id, amount, paymentMethod);
+}
+
+document.getElementById('messageModal').addEventListener('click', e => { if (e.target === document.getElementById('messageModal')) closeMessageModal(); });
+document.getElementById('paymentModal').addEventListener('click', e => { if (e.target === document.getElementById('paymentModal')) closePaymentModal(); });
+document.getElementById('reviewModal').addEventListener('click', e => { if (e.target === document.getElementById('reviewModal')) closeReviewModal(); });
+
+updateTotalSpent();
+loadBookmarks();
+
+let touchstartX = 0;
+document.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+  const touchendX = e.changedTouches[0].screenX;
+  if (touchendX - touchstartX > 100 && !document.querySelector('input:focus, textarea:focus, select:focus')) {
+    if (navigator.vibrate) navigator.vibrate(20);
+    showToast('⬅️ Going back...', '#6366f1');
+    setTimeout(() => history.back(), 200);
+  }
+});
+</script>
+</body>
+</html>

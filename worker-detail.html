@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Profile – HireNepal</title>
+  <meta name="description" content="Hire local professionals in Pokhara - Fast, Trusted, Community-driven">
+  <link rel="preload" as="image" href="your-hero-image.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo"><span class="logo-icon">🏔️</span><span class="logo-text">HireNepal</span></div>
+      <div id="menuToggle" class="menu-toggle"><span></span><span></span><span></span></div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+                <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container" style="max-width:1100px;">
+    <div style="margin: 1.8rem 0 3rem;">
+      <button onclick="history.back()" class="btn btn-primary" style="padding:1.1rem 2.5rem; font-size:1.2rem; display:flex; align-items:center; gap:0.8rem; cursor:pointer;">← Back to Talent List</button>
+    </div>
+    <div id="profileCard" class="card" style="padding:3.5rem;"></div>
+    
+    <div class="qr-availability-grid">
+      <div class="qr-card"><h4 class="qr-title"><i class="fas fa-qrcode"></i> Quick Contact</h4><div class="qr-container" id="qrcode"></div><p class="qr-hint">Scan to message on WhatsApp</p><button onclick="downloadQR()" class="btn btn-primary qr-download-btn" style="padding:0.5rem 1.2rem; font-size:0.9rem; margin-top:0.5rem;"><i class="fas fa-download"></i> Download QR</button></div>
+      <div class="availability-card"><h4 class="availability-title"><i class="fas fa-calendar-alt"></i> Check Availability</h4><div id="availabilityCalendar" class="calendar-container"></div><div class="availability-legend"><span class="legend-item available"><span class="legend-color"></span> Available</span><span class="legend-item limited"><span class="legend-color"></span> Limited</span><span class="legend-item booked"><span class="legend-color"></span> Booked</span></div><div class="availability-actions"><button onclick="showSetAvailability()" class="btn btn-primary availability-set-btn"><i class="fas fa-clock"></i> Set Availability</button><button onclick="showBookTime()" class="btn btn-outline availability-book-btn"><i class="fas fa-calendar-plus"></i> Book Time</button></div></div>
+    </div>
+    
+    <div class="negotiation-section">
+      <h3><i class="fas fa-handshake"></i> Negotiate Price <span class="negotiation-badge" id="negotiationCount">0</span></h3>
+      <div class="current-rate"><span>Current Rate:</span><strong id="workerRate"></strong></div>
+      <button onclick="openNegotiationModal()" class="btn btn-primary" style="width:100%; padding:1.2rem;" id="negotiateBtn"><i class="fas fa-comment-dollar"></i> Make an Offer</button>
+      <div class="negotiation-history" id="negotiationHistory"><p style="color:var(--text-light); text-align:center; padding:1rem;">Loading negotiations...</p></div>
+    </div>
+
+    <div id="negotiationModal" class="negotiation-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:10000; align-items:center; justify-content:center;">
+      <div class="negotiation-box" style="background:var(--bg-card); border-radius:var(--radius-lg); padding:2.5rem; max-width:500px; width:100%; max-height:90vh; overflow-y:auto;">
+        <h2 style="color:var(--primary); margin-bottom:1.5rem;"><i class="fas fa-handshake"></i> Make an Offer</h2>
+        <div class="current-rate-info" id="modalRateInfo" style="background:linear-gradient(135deg, var(--primary-soft), var(--secondary-soft)); padding:1.2rem; border-radius:var(--radius); margin-bottom:2rem;"><p style="margin:0; display:flex; justify-content:space-between;">Current rate: <strong id="modalCurrentRate" style="font-size:1.5rem; color:var(--primary);"></strong></p></div>
+        <div style="margin-bottom:1.5rem;"><label>Your Offer (Rs.):</label><input type="number" id="offerAmount" placeholder="Enter amount" min="100" step="100" value="1000" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"></div>
+        <div style="margin-bottom:1.5rem;"><label>Rate Type:</label><select id="offerType" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"><option value="hourly">Per Hour</option><option value="fixed">Fixed Price</option><option value="project">Per Project</option><option value="daily">Per Day</option></select></div>
+        <div style="margin-bottom:1.5rem;"><label>Message (optional):</label><textarea id="offerMessage" placeholder="Explain why this rate works for you..." rows="3" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"></textarea></div>
+        <div style="display:flex; gap:1rem; margin-top:2rem;"><button onclick="sendOffer()" class="btn btn-primary" id="sendOfferBtn" style="flex:1;"><i class="fas fa-paper-plane"></i> Send Offer</button><button onclick="closeNegotiationModal()" class="btn" style="flex:1; background:#6b7280; color:white;">Cancel</button></div>
+      </div>
+    </div>
+
+    <div id="counterModal" class="counter-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:10000; align-items:center; justify-content:center;">
+      <div class="counter-box" style="background:var(--bg-card); border-radius:var(--radius-lg); padding:2.5rem; max-width:500px; width:100%; max-height:90vh; overflow-y:auto;">
+        <h3 style="color:#f59e0b; margin-bottom:1.5rem;"><i class="fas fa-exchange-alt"></i> Counter Offer</h3>
+        <div id="counterDetails" style="background:var(--bg-soft); padding:1rem; border-radius:var(--radius); margin-bottom:1.5rem;"></div>
+        <div style="margin-bottom:1.5rem;"><label>Your counter offer (Rs.):</label><input type="number" id="counterAmount" min="100" step="100" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"></div>
+        <div style="margin-bottom:1.5rem;"><label>Message:</label><textarea id="counterMessage" placeholder="Explain your counter offer..." rows="3" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"></textarea></div>
+        <div style="display:flex; gap:1rem; margin-top:2rem;"><button onclick="submitCounterOffer()" class="btn btn-primary" style="flex:1;">Send Counter</button><button onclick="closeCounterModal()" class="btn" style="flex:1; background:#6b7280; color:white;">Cancel</button></div>
+      </div>
+    </div>
+    
+    <div id="availabilityModal" class="availability-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:10000; align-items:center; justify-content:center;">
+      <div class="modal-content" style="background:var(--bg-card); border-radius:var(--radius-lg); padding:2.5rem; max-width:500px; width:90%;">
+        <h3 style="color:var(--primary); margin-bottom:1.5rem;"><i class="fas fa-clock"></i> Set Your Available Times</h3>
+        <div style="margin-bottom:1.5rem;"><label>Select Date</label><input type="text" id="availabilityDatePicker" class="date-picker" placeholder="Pick a date" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"></div>
+        <div class="time-range" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;"><div><label>From</label><input type="time" id="startTime" value="09:00" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"></div><div><label>To</label><input type="time" id="endTime" value="17:00" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"></div></div>
+        <div style="margin-bottom:1.5rem;"><label>Status</label><select id="availabilityStatus" style="width:100%; padding:1rem; border:2px solid var(--border); border-radius:var(--radius);"><option value="available">✅ Available</option><option value="limited">⚠️ Limited Availability</option><option value="booked">❌ Fully Booked</option></select></div>
+        <div style="display:flex; gap:1rem; margin-top:2rem;"><button onclick="saveAvailability()" class="btn btn-primary" style="flex:1;">Save</button><button onclick="closeAvailabilityModal()" class="btn" style="flex:1; background:#6b7280; color:white;">Cancel</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="loginModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.72); z-index:2000; align-items:center; justify-content:center;">
+  <div class="card" style="max-width:440px; padding:3.2rem; text-align:center;"><h2 style="margin-bottom:1.6rem; color:var(--primary);">Please Log In</h2><p style="margin-bottom:2.8rem;">You need to be logged in to contact or hire this professional.</p><a href="login.html" class="btn btn-primary" style="padding:1.1rem 3.2rem;">Go to Login</a><button onclick="document.getElementById('loginModal').style.display='none'" style="margin-top:1.6rem; background:none; border:none; color:var(--primary); cursor:pointer;">Close</button></div>
+</div>
+
+<div class="photo-reviews-section"><h3><i class="fas fa-camera"></i> Work Photos from Clients</h3><div class="photo-reviews-grid" id="photoReviewsGrid"></div></div>
+
+<div class="fab-container" id="fabContainer"><button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button><div class="fab-menu"><button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button><button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button><button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button><button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button></div></div>
+<footer><div class="container"><p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p><p>Made with passion in Pokhara, Nepal 🏔️</p></div></footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/userData.js"></script>
+
+<script>
+function getWorkerReviews(workerId) { return getUserReviews(workerId); }
+function getAverageRating(workerId) { const reviews = getWorkerReviews(workerId); if (reviews.length === 0) return null; const sum = reviews.reduce((acc, r) => acc + r.stars, 0); return (sum / reviews.length).toFixed(1); }
+function deleteReview(workerId, reviewId, event) { if (event) event.stopPropagation(); if (!confirm('Delete your review?')) return; deleteUserReview(workerId, reviewId); if (typeof showToast === 'function') showToast('Review deleted', '#ef4444'); else alert('Review deleted'); setTimeout(() => location.reload(), 1500); }
+function trackWhatsAppClick() { incrementWhatsAppClicks(); }
+function showToast(message, bg) { let toast = document.getElementById('toast'); if (!toast) { toast = document.createElement('div'); toast.id = 'toast'; toast.style.cssText = 'display:none; position:fixed; top:24px; right:24px; padding:1rem 2rem; border-radius:12px; color:white; z-index:9999; box-shadow:0 6px 20px rgba(0,0,0,0.35); font-weight:500;'; document.body.appendChild(toast); } toast.textContent = message; toast.style.background = bg; toast.style.display = 'block'; setTimeout(() => toast.style.display = 'none', 2800); }
+
+const urlParams = new URLSearchParams(window.location.search);
+const id = Number(urlParams.get('id'));
+const worker = getAllWorkersList().find(w => w.id === id);
+const card = document.getElementById('profileCard');
+const currentUser = getCurrentUser();
+const currentUserId = currentUser ? currentUser.userId : null;
+
+if (worker) {
+  const userReviews = getWorkerReviews(id);
+  const avgRating = getAverageRating(id);
+  const totalReviews = userReviews.length;
+  let html = `<div style="display:flex; gap:3.5rem; flex-wrap:wrap; align-items:flex-start;"><img src="${worker.photo}" alt="${worker.name}" style="width:260px; height:260px; border-radius:50%; object-fit:cover; border:8px solid var(--primary-light); flex-shrink:0;"><div style="flex:1; min-width:320px;"><h1 style="margin-bottom:0.8rem; font-size:2.6rem;">${worker.name}</h1><div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin:0.8rem 0;"><p style="color:#fbbf24; font-size:1.5rem;">★ ${avgRating ? avgRating : worker.rating.toFixed(1)}</p><p style="color:var(--text-light);">${totalReviews > 0 ? `(${totalReviews} review${totalReviews !== 1 ? 's' : ''})` : '(No reviews yet)'}</p><p style="color:var(--text-light);">• ${worker.location}</p></div><p style="font-size:1.4rem; font-weight:600; color:var(--primary); margin:1.2rem 0;">${worker.rate}</p><p style="margin:1.4rem 0;"><strong>Skills:</strong><br>${worker.skills.join(', ')}</p><p style="margin:1.8rem 0 2.5rem;"><strong>About:</strong><br>${worker.bio}</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin: 1.5rem 0;"><button onclick="copyPhoneNumber('${worker.phone}', '${worker.name}')" class="copy-phone-btn" title="Copy phone number"><i class="fas fa-phone-alt"></i><span>Copy Phone</span></button><button onclick="copyProfileLink(${worker.id}, '${worker.name}')" class="copy-profile-btn" title="Share profile link"><i class="fas fa-share-alt"></i><span>Share Link</span></button><button onclick="copyAllContactInfo(${JSON.stringify(worker).replace(/'/g, "\\'")})" class="copy-all-btn" title="Copy all contact details"><i class="fas fa-clipboard-list"></i><span>Copy All</span></button></div><button id="hireButton" class="btn btn-primary" style="padding:1.2rem 3rem; width:100%;">Hire / Contact Now</button></div></div>`;
+  const allReviews = [...(worker.reviews || []), ...userReviews];
+  if (allReviews.length > 0) {
+    html += `<div style="margin-top:3.5rem; padding-top:2rem; border-top:1px solid var(--border);"><h3 style="font-size:1.7rem; margin-bottom:1.6rem; color:var(--primary);">Client Reviews (${allReviews.length})</h3>`;
+    allReviews.sort((a,b) => (b.timestamp ? new Date(b.timestamp) : new Date(b.date + ', 2026')) - (a.timestamp ? new Date(a.timestamp) : new Date(a.date + ', 2026')));
+    allReviews.forEach(r => {
+      const stars = r.stars || r.rating;
+      const name = r.name || r.userFullName || r.userName || 'Anonymous';
+      const text = r.text || 'No comment provided';
+      const date = r.date || 'Recently';
+      const isUserReview = r.userId === currentUserId;
+      const reviewId = r.id || '';
+      html += `<div class="review-item ${isUserReview ? 'user-review' : ''}"><div class="review-header"><span><span class="reviewer-name">${name}</span>${isUserReview ? '<span class="user-badge">You</span>' : ''}</span><span style="display:flex; align-items:center; gap:0.5rem;"><span class="review-stars">${'★'.repeat(stars)}${'☆'.repeat(5-stars)}</span>${isUserReview && reviewId ? `<button onclick="deleteReview(${id}, ${reviewId}, event)" class="delete-review-btn"><i class="fas fa-trash"></i> Delete</button>` : ''}</span></div><p class="review-text">${text}</p><div class="review-date">${date}</div></div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div style="margin-top:3.5rem; padding:3rem; text-align:center; background:var(--bg-soft); border-radius:var(--radius);"><i class="fas fa-star" style="font-size:3rem; color:var(--text-light); opacity:0.3; margin-bottom:1rem;"></i><p>No reviews yet. Be the first to review this professional!</p></div>`;
+  }
+  card.innerHTML = html;
+  const hireBtn = document.getElementById('hireButton');
+  hireBtn.addEventListener('click', () => {
+    if (!isLoggedIn()) { document.getElementById('loginModal').style.display = 'flex'; return; }
+    if (getUserHires().some(h => h.id === worker.id)) { showToast(`Already contacted ${worker.name} → check My Hires`, '#f59e0b'); return; }
+    if (worker.phone) { const phone = "977" + worker.phone.replace(/\D/g, ''); const message = `Namaste ${worker.name} ji!\nI found you on HireNepal.\nInterested in: ${worker.skills[0]}\nApprox budget: Rs. _____\nWhen are you available?`; window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank'); trackWhatsAppClick(); }
+    else alert("Phone number not available.");
+    addUserHire({ id: worker.id, name: worker.name, photo: worker.photo, rate: worker.rate, skills: worker.skills, location: worker.location, hiredDate: new Date().toLocaleDateString("en-GB"), timestamp: new Date().toISOString() });
+    hireBtn.textContent = "Message Sent on WhatsApp ✓"; hireBtn.style.background = "#10b981"; hireBtn.disabled = true;
+  });
+} else {
+  card.innerHTML = `<div style="text-align:center; padding:4rem;"><h2>😕 Professional Not Found</h2><p>The worker you're looking for doesn't exist.</p><a href="workers.html" class="btn btn-primary">Browse All Professionals</a></div>`;
+}
+
+function saveToRecentViews(worker) { let recent = JSON.parse(localStorage.getItem('recentViews') || '[]'); recent = recent.filter(w => w.id !== worker.id); recent.unshift({ id: worker.id, name: worker.name, photo: worker.photo, skills: worker.skills.slice(0,2), viewedAt: new Date().toLocaleString() }); recent = recent.slice(0,5); localStorage.setItem('recentViews', JSON.stringify(recent)); }
+if (worker) saveToRecentViews(worker);
+
+let touchstartX = 0;
+document.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => { if (e.changedTouches[0].screenX - touchstartX > 100 && !document.querySelector('input:focus, textarea:focus, select:focus')) { if (navigator.vibrate) navigator.vibrate(20); if (typeof showToast === 'function') showToast('⬅️ Going back...', '#6366f1'); setTimeout(() => history.back(), 200); } });
+
+function generateQR() { const qrDiv = document.getElementById('qrcode'); if (!qrDiv || !worker) return; if (typeof QRCode === 'undefined') { qrDiv.innerHTML = '<p>QR library not loaded</p>'; return; } qrDiv.innerHTML = ''; const whatsappLink = `https://wa.me/977${worker.phone.replace(/\D/g, '')}?text=Hello%20${encodeURIComponent(worker.name)}%2C%20I%20found%20you%20on%20HireNepal!`; new QRCode(qrDiv, { text: whatsappLink, width: 150, height: 150, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H }); }
+function downloadQR() { const canvas = document.querySelector('#qrcode canvas'); if (!canvas) return; const link = document.createElement('a'); link.download = `${worker.name}-HireNepal-QR.png`; link.href = canvas.toDataURL('image/png'); link.click(); showToast('QR Code downloaded!', '#10b981'); }
+
+let availabilityData = {};
+function loadAvailability() { if (!worker) return; const stored = localStorage.getItem(`availability_${worker.id}`); if (stored) availabilityData = JSON.parse(stored); else { availabilityData = generateSampleAvailability(); localStorage.setItem(`availability_${worker.id}`, JSON.stringify(availabilityData)); } }
+function generateSampleAvailability() { const data = {}; const today = new Date(); for (let i = 0; i < 30; i++) { const date = new Date(today); date.setDate(today.getDate() + i); const dateStr = date.toISOString().split('T')[0]; const rand = Math.random(); if (rand < 0.5) data[dateStr] = { status: 'available', slots: ['09:00-12:00', '14:00-17:00'] }; else if (rand < 0.8) data[dateStr] = { status: 'limited', slots: ['10:00-13:00'] }; else data[dateStr] = { status: 'booked', slots: [] }; } return data; }
+let currentCalendarDate = new Date();
+function initCalendar() { const calendarDiv = document.getElementById('availabilityCalendar'); if (!calendarDiv || !worker) return; calendarDiv.innerHTML = `<div class="calendar-wrapper"><div class="calendar-header"><button onclick="changeMonth(-1)" class="calendar-nav">←</button><span id="currentMonthDisplay" class="calendar-month"></span><button onclick="changeMonth(1)" class="calendar-nav">→</button></div><div id="calendarGrid" class="calendar-grid"></div></div>`; renderCalendar(); }
+function renderCalendar() { const year = currentCalendarDate.getFullYear(); const month = currentCalendarDate.getMonth(); document.getElementById('currentMonthDisplay').textContent = currentCalendarDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }); const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate(); const grid = document.getElementById('calendarGrid'); grid.innerHTML = ''; ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(day => { grid.innerHTML += `<div class="calendar-day-name">${day}</div>`; }); for (let i = 0; i < firstDay; i++) grid.innerHTML += '<div class="calendar-empty"></div>'; for (let day = 1; day <= daysInMonth; day++) { const dateStr = `${year}-${String(month + 1).padStart(2,'0')}-${String(day).padStart(2,'0')}`; const availability = availabilityData[dateStr] || { status: 'available' }; let statusClass = 'calendar-day-available'; if (availability.status === 'limited') statusClass = 'calendar-day-limited'; if (availability.status === 'booked') statusClass = 'calendar-day-booked'; grid.innerHTML += `<div onclick="showDayDetails('${dateStr}')" class="calendar-day ${statusClass}">${day}</div>`; } }
+function changeMonth(delta) { currentCalendarDate.setMonth(currentCalendarDate.getMonth() + delta); renderCalendar(); }
+function showDayDetails(dateStr) { const availability = availabilityData[dateStr] || { status: 'available', slots: ['09:00-17:00'] }; const date = new Date(dateStr).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); let statusText = '✅ Available'; if (availability.status === 'limited') statusText = '⚠️ Limited'; if (availability.status === 'booked') statusText = '❌ Booked'; const slots = availability.slots && availability.slots.length > 0 ? availability.slots.join(', ') : 'Flexible'; alert(`${date}\n\nStatus: ${statusText}\n\nAvailable Times: ${slots}`); }
+function showSetAvailability() { if (!isLoggedIn()) { showToast('Please login to set availability', '#ef4444'); setTimeout(() => window.location.href = 'login.html', 1500); return; } document.getElementById('availabilityModal').style.display = 'flex'; flatpickr("#availabilityDatePicker", { minDate: "today", dateFormat: "Y-m-d", defaultDate: "today" }); }
+function closeAvailabilityModal() { document.getElementById('availabilityModal').style.display = 'none'; }
+function saveAvailability() { const date = document.getElementById('availabilityDatePicker').value; const startTime = document.getElementById('startTime').value; const endTime = document.getElementById('endTime').value; const status = document.getElementById('availabilityStatus').value; if (!date) { showToast('Please select a date', '#ef4444'); return; } const timeSlot = `${startTime}-${endTime}`; if (!availabilityData[date]) availabilityData[date] = { status, slots: [] }; availabilityData[date].status = status; if (!availabilityData[date].slots.includes(timeSlot)) availabilityData[date].slots.push(timeSlot); localStorage.setItem(`availability_${worker.id}`, JSON.stringify(availabilityData)); showToast('Availability saved!', '#10b981'); closeAvailabilityModal(); renderCalendar(); }
+function showBookTime() { if (!isLoggedIn()) { showToast('Please login to book a time', '#ef4444'); setTimeout(() => window.location.href = 'login.html', 1500); return; } const date = prompt('Enter date (YYYY-MM-DD):', new Date().toISOString().split('T')[0]); if (!date) return; const time = prompt('Enter preferred time (e.g., 10:00 AM):', '10:00 AM'); if (!time) return; const message = prompt('Brief description of work:', ''); showToast(`Booking request sent for ${date} at ${time}!`, '#10b981'); if (!getUserHires().some(h => h.id === worker.id)) addUserHire({ id: worker.id, name: worker.name, photo: worker.photo, rate: worker.rate, skills: worker.skills, location: worker.location, hiredDate: new Date().toLocaleDateString("en-GB"), timestamp: new Date().toISOString(), booking: { date, time, message: message || 'No message' } }); }
+
+let currentPhotoReview = null, currentPhotoIndex = 0, photoReviews = [];
+document.addEventListener('DOMContentLoaded', function() { const reviewPhoto = document.getElementById('reviewPhoto'); if (reviewPhoto) reviewPhoto.addEventListener('change', function(e) { const file = e.target.files[0]; if (file) { if (file.size > 5*1024*1024) { showToast('File too large (max 5MB)', '#ef4444'); return; } if (!file.type.startsWith('image/')) { showToast('Please select an image file', '#ef4444'); return; } const reader = new FileReader(); reader.onload = function(ev) { currentPhotoReview = ev.target.result; const preview = document.getElementById('reviewPhotoPreview'); if (preview) preview.innerHTML = `<div class="photo-preview"><img src="${ev.target.result}" alt="Preview"><button class="remove-photo" onclick="removeReviewPhoto()">✕</button></div>`; }; reader.readAsDataURL(file); } }); });
+function removeReviewPhoto() { currentPhotoReview = null; const preview = document.getElementById('reviewPhotoPreview'); if (preview) preview.innerHTML = ''; const input = document.getElementById('reviewPhoto'); if (input) input.value = ''; }
+function submitReviewWithPhoto() { if (currentRating === 0) { showToast('Please select a rating', '#ef4444'); return; } const reviewText = document.getElementById('reviewText')?.value.trim() || ''; const review = addReviewWithPhoto(currentReviewWorkerId, currentRating, reviewText, currentPhotoReview); if (review) { showToast(`✅ Thank you for your ${currentRating}-star review${currentPhotoReview ? ' with photo' : ''}!`, '#10b981'); closeReviewModal(); setTimeout(() => location.reload(), 1500); } else showToast('Failed to save review', '#ef4444'); }
+function displayPhotoReviews(workerId) { const reviews = getWorkerPhotoReviews(workerId); const grid = document.getElementById('photoReviewsGrid'); if (!grid) return; if (reviews.length === 0) { grid.innerHTML = '<p style="color:var(--text-light); text-align:center; padding:2rem;">No photo reviews yet.</p>'; return; } window.photoReviews = reviews; grid.innerHTML = reviews.map((review, index) => { const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars); return `<div class="photo-review-card" onclick="openLightbox(${index})"><img src="${review.photo}" alt="Review photo" loading="lazy"><div class="photo-review-info"><div class="photo-review-stars">${stars}</div><div class="photo-review-text">${review.text.substring(0,60)}${review.text.length>60?'...':''}</div><div class="photo-review-user"><i class="fas fa-user-circle"></i> ${review.userFullName || review.userName}</div></div></div>`; }).join(''); }
+function openLightbox(index) { if (!window.photoReviews || window.photoReviews.length === 0) return; currentPhotoIndex = index; updateLightbox(); document.getElementById('photoLightbox').classList.add('active'); document.addEventListener('keydown', lightboxKeyHandler); }
+function closeLightbox() { document.getElementById('photoLightbox').classList.remove('active'); document.removeEventListener('keydown', lightboxKeyHandler); }
+function nextPhoto() { if (!window.photoReviews || window.photoReviews.length === 0) return; currentPhotoIndex = (currentPhotoIndex + 1) % window.photoReviews.length; updateLightbox(); }
+function prevPhoto() { if (!window.photoReviews || window.photoReviews.length === 0) return; currentPhotoIndex = (currentPhotoIndex - 1 + window.photoReviews.length) % window.photoReviews.length; updateLightbox(); }
+function updateLightbox() { const review = window.photoReviews[currentPhotoIndex]; if (!review) return; const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars); document.getElementById('lightboxImg').src = review.photo; document.getElementById('lightboxStars').innerHTML = stars; document.getElementById('lightboxCaption').textContent = review.text; document.getElementById('lightboxUser').innerHTML = `<i class="fas fa-user-circle"></i> ${review.userFullName || review.userName} • ${review.date}`; }
+function lightboxKeyHandler(e) { if (e.key === 'Escape') closeLightbox(); if (e.key === 'ArrowRight') nextPhoto(); if (e.key === 'ArrowLeft') prevPhoto(); }
+function addPhotoLightbox() { if (document.getElementById('photoLightbox')) return; const lightbox = document.createElement('div'); lightbox.id = 'photoLightbox'; lightbox.className = 'photo-lightbox'; lightbox.style.cssText = 'display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); z-index:10000; align-items:center; justify-content:center; padding:2rem;'; lightbox.innerHTML = `<div class="lightbox-content" style="max-width:900px; max-height:85vh; position:relative; width:100%;"><img id="lightboxImg" src="" alt="Review photo" style="width:100%; max-height:85vh; object-fit:contain; border-radius:var(--radius-lg);"><button class="lightbox-close" onclick="closeLightbox()" style="position:absolute; top:-40px; right:0; background:rgba(255,255,255,0.2); border:none; color:white; font-size:2rem; cursor:pointer; width:50px; height:50px; border-radius:50%;">✕</button><button class="lightbox-prev" onclick="prevPhoto()" style="position:absolute; top:50%; left:-80px; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:60px; height:60px; border-radius:50%; font-size:2rem;">‹</button><button class="lightbox-next" onclick="nextPhoto()" style="position:absolute; top:50%; right:-80px; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; width:60px; height:60px; border-radius:50%; font-size:2rem;">›</button><div class="lightbox-info" style="position:absolute; bottom:-80px; left:0; right:0; color:white; text-align:center; padding:1rem; background:rgba(0,0,0,0.5); border-radius:var(--radius);"><div class="lightbox-stars" id="lightboxStars" style="color:#fbbf24; font-size:1.2rem;"></div><div class="lightbox-caption" id="lightboxCaption" style="font-size:1rem;"></div><div class="lightbox-user" id="lightboxUser" style="font-size:0.9rem;"></div></div></div>`; document.body.appendChild(lightbox); }
+addPhotoLightbox();
+const originalOpenReviewModal = window.openReviewModal;
+window.openReviewModal = function(workerId, workerName) { if (originalOpenReviewModal) originalOpenReviewModal(workerId, workerName); currentPhotoReview = null; removeReviewPhoto(); const modal = document.querySelector('.review-box'); if (modal && !document.querySelector('.review-photo-upload')) { const photoSection = document.createElement('div'); photoSection.className = 'review-photo-upload'; photoSection.innerHTML = `<label for="reviewPhoto" class="photo-upload-label"><i class="fas fa-camera"></i><span>Click to add a photo of the work (optional)</span></label><input type="file" id="reviewPhoto" accept="image/*" style="display:none;"><div id="reviewPhotoPreview" class="photo-preview"></div>`; const textarea = modal.querySelector('textarea'); if (textarea) textarea.parentNode.insertBefore(photoSection, textarea); } };
+document.addEventListener('DOMContentLoaded', function() { const submitBtn = document.getElementById('submitReviewBtn'); if (submitBtn) submitBtn.onclick = submitReviewWithPhoto; });
+
+let currentNegotiationId = null, currentWorkerIdForNeg = null;
+function initNegotiation() { const workerId = parseInt(urlParams.get('id')); if (!workerId) return; currentWorkerIdForNeg = workerId; const worker = getAllWorkersList().find(w => w.id === workerId); if (!worker) return; document.getElementById('workerRate').textContent = worker.rate; document.getElementById('modalCurrentRate').textContent = worker.rate; const loggedIn = isLoggedIn(); if (!loggedIn) { document.getElementById('negotiateBtn').disabled = true; document.getElementById('negotiateBtn').innerHTML = '<i class="fas fa-lock"></i> Login to Negotiate'; } loadNegotiationHistory(workerId); }
+function loadNegotiationHistory(workerId) { const negotiations = getNegotiations(workerId); const container = document.getElementById('negotiationHistory'); const countBadge = document.getElementById('negotiationCount'); if (countBadge) countBadge.textContent = negotiations.length; if (!container) return; if (negotiations.length === 0) { container.innerHTML = '<p style="color:var(--text-light); text-align:center; padding:1rem;">No negotiations yet. Make the first offer!</p>'; return; } const userId = getCurrentUserId(); container.innerHTML = negotiations.map(n => { const isUser = n.userId === userId; const statusColors = { pending: 'status-pending', accepted: 'status-accepted', rejected: 'status-rejected', countered: 'status-countered' }; let actionButtons = ''; if (n.status === 'pending' && !isUser && userId) actionButtons = `<div class="negotiation-actions"><button onclick="acceptNegotiation('${n.id}')" class="btn btn-success btn-sm">Accept</button><button onclick="openCounterModal('${n.id}', ${n.amount})" class="btn btn-primary btn-sm">Counter</button><button onclick="rejectNegotiation('${n.id}')" class="btn btn-danger btn-sm">Reject</button></div>`; else if (n.status === 'countered' && !isUser && userId) actionButtons = `<div class="negotiation-actions"><button onclick="acceptNegotiation('${n.id}')" class="btn btn-success btn-sm">Accept Counter</button><button onclick="rejectNegotiation('${n.id}')" class="btn btn-danger btn-sm">Reject</button></div>`; return `<div class="negotiation-item ${isUser ? 'sent' : 'received'}"><div class="negotiation-header"><span class="negotiation-amount">Rs. ${n.amount.toLocaleString()}</span><span class="negotiation-status ${statusColors[n.status]}">${n.status}</span></div><div class="negotiation-type">${n.type} rate • ${isUser ? 'You' : n.userFullName || n.userName}</div>${n.message ? `<div class="negotiation-message">"${n.message}"</div>` : ''}<div class="negotiation-date"><i class="far fa-clock"></i> ${new Date(n.updatedAt).toLocaleDateString()}</div>${actionButtons}</div>`; }).join(''); }
+function openNegotiationModal() { if (!isLoggedIn()) { showToast('Please login to make an offer', '#ef4444'); setTimeout(() => window.location.href = 'login.html', 1500); return; } document.getElementById('negotiationModal').style.display = 'flex'; }
+function closeNegotiationModal() { document.getElementById('negotiationModal').style.display = 'none'; document.getElementById('offerAmount').value = '1000'; document.getElementById('offerMessage').value = ''; }
+function sendOffer() { const amount = document.getElementById('offerAmount').value; const message = document.getElementById('offerMessage').value; const type = document.getElementById('offerType').value; if (!amount || amount < 100) { showToast('Please enter a valid amount (minimum Rs. 100)', '#ef4444'); return; } const btn = document.getElementById('sendOfferBtn'); const originalText = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...'; btn.disabled = true; setTimeout(() => { const offer = createOffer(currentWorkerIdForNeg, parseInt(amount), message, type); if (offer) { showToast(`✅ Offer of Rs. ${amount} sent!`, '#10b981'); closeNegotiationModal(); loadNegotiationHistory(currentWorkerIdForNeg); } else showToast('Failed to send offer', '#ef4444'); btn.innerHTML = originalText; btn.disabled = false; }, 500); }
+function openCounterModal(negotiationId, currentAmount) { currentNegotiationId = negotiationId; document.getElementById('counterAmount').value = currentAmount; document.getElementById('counterMessage').value = ''; document.getElementById('counterModal').style.display = 'flex'; }
+function closeCounterModal() { document.getElementById('counterModal').style.display = 'none'; currentNegotiationId = null; }
+function submitCounterOffer() { const amount = document.getElementById('counterAmount').value; const message = document.getElementById('counterMessage').value; if (!amount || amount < 100) { showToast('Please enter a valid amount', '#ef4444'); return; } const negotiation = createCounterOffer(currentNegotiationId, parseInt(amount), message); if (negotiation) { showToast(`✅ Counter offer of Rs. ${amount} sent!`, '#10b981'); closeCounterModal(); loadNegotiationHistory(negotiation.workerId); } else showToast('Failed to send counter offer', '#ef4444'); }
+function acceptNegotiation(negotiationId) { if (!confirm('Accept this offer? This will confirm the price.')) return; const negotiation = acceptOffer(negotiationId); if (negotiation) { showToast(`✅ Offer accepted! Price agreed: Rs. ${negotiation.amount}`, '#10b981'); loadNegotiationHistory(negotiation.workerId); const worker = getAllWorkersList().find(w => w.id === negotiation.workerId); if (worker && !getUserHires().some(h => h.id === worker.id)) addUserHire({ id: worker.id, name: worker.name, photo: worker.photo, rate: `Rs. ${negotiation.amount}/${negotiation.type}`, skills: worker.skills, location: worker.location, hiredDate: new Date().toLocaleDateString("en-GB"), timestamp: new Date().toISOString(), negotiated: true }); } }
+function rejectNegotiation(negotiationId) { if (!confirm('Reject this offer?')) return; const negotiation = rejectOffer(negotiationId); if (negotiation) { showToast('Offer rejected', '#ef4444'); loadNegotiationHistory(negotiation.workerId); } }
+
+document.addEventListener('DOMContentLoaded', function() { if (worker) { initNegotiation(); setTimeout(() => { generateQR(); loadAvailability(); initCalendar(); displayPhotoReviews(worker.id); }, 500); } });
+</script>
+</body>
+</html>

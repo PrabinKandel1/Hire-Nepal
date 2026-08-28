@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Profile – HireNepal</title>
+  <meta name="description" content="Manage your HireNepal profile, view stats, change password, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo"><span class="logo-icon">🏔️</span><span class="logo-text">HireNepal</span></div>
+      <div id="menuToggle" class="menu-toggle"><span></span><span></span><span></span></div>
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="workers.html" class="nav-link"><i class="fas fa-users"></i><span>Find Talent</span></a>
+                        <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-pen-alt"></i><span>Post Job</span></a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;"><i class="fas fa-briefcase"></i><span>My Hires</span></a>
+        <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="your-profile.html" class="nav-link active"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+        <a href="help.html" class="nav-link"><i class="fas fa-question-circle"></i><span>Help</span></a>
+        <a href="login.html" id="authLink" class="nav-link auth-link"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+        <button id="themeToggle" class="theme-toggle"><i class="fas fa-moon"></i></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="section" style="padding: 2rem 0 4rem;">
+  <div class="container" style="max-width: 1100px;">
+    <div class="profile-card" style="padding: 2.5rem; border-radius: 32px;">
+      <div style="display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: flex-start;">
+        <!-- Left: Avatar + Photo Upload -->
+        <div style="text-align: center; min-width: 200px;">
+          <div style="position: relative; display: inline-block;">
+            <img id="profilePhoto" src="https://ui-avatars.com/api/?background=6366f1&color=fff&size=180&name=User" alt="Profile"
+                 style="width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-light); box-shadow: var(--shadow-md);">
+            <button onclick="document.getElementById('photoUpload').click()" 
+                    style="position: absolute; bottom: 5px; right: 5px; background: var(--primary); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;">
+              <i class="fas fa-camera"></i>
+            </button>
+          </div>
+          <input type="file" id="photoUpload" accept="image/*" style="display:none;">
+          <button onclick="removePhoto()" class="btn btn-secondary" style="margin-top: 0.8rem; padding: 0.4rem 1rem; font-size: 0.8rem;">
+            <i class="fas fa-trash"></i> Remove
+          </button>
+        </div>
+
+        <!-- Right: User Info & Actions -->
+        <div style="flex: 1; min-width: 280px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <h2 id="fullName" style="margin: 0; font-size: 2rem;">Loading...</h2>
+            <button onclick="openEditModal()" class="btn btn-secondary" style="padding: 0.4rem 1rem;">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin: 0.5rem 0 0.8rem;">
+            <p id="usernameDisplay" style="color: var(--text-light);"><i class="fas fa-at"></i> @loading</p>
+            <span id="adminBadge" style="display: none; background: linear-gradient(135deg, #ef4444, #f59e0b); color: white; padding: 0.2rem 0.8rem; border-radius: 50px; font-size: 0.7rem; font-weight: bold;">
+              <i class="fas fa-user-shield"></i> ADMIN
+            </span>
+            <span id="verifiedBadge" style="display: none; background: #10b981; color: white; padding: 0.2rem 0.8rem; border-radius: 50px; font-size: 0.7rem;">
+              <i class="fas fa-check-circle"></i> Verified
+            </span>
+          </div>
+          <p style="margin: 0.3rem 0;"><strong><i class="fas fa-envelope"></i> Email:</strong> <span id="emailDisplay">-</span></p>
+          <p style="margin: 0.3rem 0 1rem; font-size: 0.85rem; color: var(--text-light);">
+            <i class="fas fa-calendar-alt"></i> Member since: <span id="memberSinceDate">-</span>
+          </p>
+
+          <!-- Stats Row -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0; padding: 1rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+            <div class="stat-box"><div style="font-size: 2rem; font-weight: 800; color: var(--primary);" id="statHires">0</div><div style="font-size: 0.75rem;">Hires</div></div>
+            <div class="stat-box"><div style="font-size: 2rem; font-weight: 800; color: var(--primary);" id="statReviews">0</div><div style="font-size: 0.75rem;">Reviews</div></div>
+            <div class="stat-box"><div style="font-size: 2rem; font-weight: 800; color: var(--primary);" id="statBookmarks">0</div><div style="font-size: 0.75rem;">Bookmarks</div></div>
+          </div>
+
+          <!-- Modern Change Password Section -->
+          <div style="margin: 1.8rem 0;">
+            <h4 style="margin-bottom: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fas fa-lock"></i> Change Password
+            </h4>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div style="position: relative;">
+                <i class="fas fa-key" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+                <input type="password" id="currentPassword" placeholder="Current password" 
+                       style="width: 100%; padding: 0.9rem 1rem 0.9rem 2.8rem; border: 2px solid var(--border); border-radius: 60px; background: var(--bg-card); color: var(--text);">
+                <i class="fas fa-eye-slash toggle-pwd" data-target="currentPassword" 
+                   style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-light);"></i>
+              </div>
+              <div style="position: relative;">
+                <i class="fas fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+                <input type="password" id="newPassword" placeholder="New password" 
+                       style="width: 100%; padding: 0.9rem 1rem 0.9rem 2.8rem; border: 2px solid var(--border); border-radius: 60px; background: var(--bg-card); color: var(--text);">
+                <i class="fas fa-eye-slash toggle-pwd" data-target="newPassword" 
+                   style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-light);"></i>
+              </div>
+              <div style="position: relative;">
+                <i class="fas fa-check-circle" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+                <input type="password" id="confirmPassword" placeholder="Confirm new password" 
+                       style="width: 100%; padding: 0.9rem 1rem 0.9rem 2.8rem; border: 2px solid var(--border); border-radius: 60px; background: var(--bg-card); color: var(--text);">
+                <i class="fas fa-eye-slash toggle-pwd" data-target="confirmPassword" 
+                   style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-light);"></i>
+              </div>
+            </div>
+            <button onclick="changePassword()" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; padding: 0.9rem; border-radius: 60px; font-weight: 600;">
+              <i class="fas fa-save"></i> Update Password
+            </button>
+          </div>
+
+          <!-- Action Buttons -->
+          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <a href="myhires.html" class="btn btn-primary" style="flex:1; text-align: center;"><i class="fas fa-briefcase"></i> My Hires</a>
+            <a href="dashboard.html" class="btn btn-secondary" style="flex:1; text-align: center;"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <button onclick="logout()" class="btn" style="flex:1; background: #ef4444; color: white;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN PANEL (visible only to admin) -->
+      <div id="adminPanel" style="display: none; margin-top: 2.5rem;">
+        <div class="admin-section" style="background: var(--bg-soft); border-radius: 24px; padding: 1.8rem;">
+          <h3><i class="fas fa-user-shield"></i> Admin Dashboard</h3>
+          <div class="admin-tabs" style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1rem 0;">
+            <button class="admin-tab" onclick="showAdminTab('verifications')">🆔 Pending Verifications</button>
+            <button class="admin-tab" onclick="showAdminTab('pendingJobs')">📋 Pending Jobs</button>
+            <button class="admin-tab" onclick="showAdminTab('addWorker')">➕ Add Worker</button>
+            <button class="admin-tab" onclick="showAdminTab('manageWorkers')">📝 Manage Workers</button>
+            <button class="admin-tab" onclick="showAdminTab('verifiedUsers')">✅ Verified Users</button>
+          </div>
+          <div id="verificationsTab" style="display: block;"><h4>Pending Verifications (<span id="pendingVerifCount">0</span>)</h4><div id="pendingVerificationsList"></div></div>
+          <div id="pendingJobsTab" style="display: none;"><h4>Pending Jobs (<span id="pendingJobsCount">0</span>)</h4><div id="pendingJobsList"></div></div>
+          <div id="addWorkerTab" style="display: none;"><h4>Add New Worker</h4><div class="admin-form" style="display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fill, minmax(200px,1fr));"><input type="text" id="newName" placeholder="Full Name *"><input type="text" id="newSkills" placeholder="Skills (comma) *"><input type="text" id="newRate" placeholder="Rate *"><input type="text" id="newLocation" placeholder="Location *"><input type="text" id="newPhone" placeholder="Phone *"><input type="text" id="newRating" placeholder="Rating" value="4.5"><textarea id="newBio" placeholder="Bio" rows="2"></textarea><input type="text" id="newPhoto" placeholder="Photo URL (optional)"></div><button onclick="addNewWorker()" class="btn btn-primary" style="margin-top: 1rem;"><i class="fas fa-plus"></i> Add Worker</button></div>
+          <div id="manageWorkersTab" style="display: none;"><h4>Manage Workers</h4><div id="workersList"></div></div>
+          <div id="verifiedUsersTab" style="display: none;"><h4>Verified Users</h4><div id="verifiedUsersList"></div></div>
+        </div>
+      </div>
+
+      <!-- Badges Section -->
+      <div class="badges-section" style="margin-top: 2rem; background: var(--bg-soft); border-radius: 24px; padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
+          <h3 style="margin:0;"><i class="fas fa-trophy"></i> Achievements</h3>
+          <span class="badge-count" id="earnedBadgesCount">0/5</span>
+        </div>
+        <div class="badges-grid" id="badgesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); gap: 1rem;"></div>
+      </div>
+
+      <!-- Recent Hires -->
+      <div style="margin-top: 2rem; background: var(--bg-soft); border-radius: 24px; padding: 1.5rem;">
+        <h4><i class="fas fa-clock"></i> Recently Contacted</h4>
+        <div id="recentHiresList"></div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="delete-section" style="margin-top: 2rem; background: #fee2e2; border-radius: 24px; padding: 1.5rem; border: 1px solid #ef4444;">
+        <h3 style="color: #b91c1c;"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+        <p>Once you delete your account, all data will be permanently removed.</p>
+        <input type="password" id="deletePassword" placeholder="Enter your password" style="width: 100%; padding: 0.6rem; margin-bottom: 0.8rem; border-radius: 12px; border: 1px solid #ef4444;">
+        <button onclick="openDeleteModal()" class="delete-btn">Permanently Delete Account</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modals -->
+<div id="editProfileModal" class="edit-profile-modal"><div class="edit-profile-content"><h2>Edit Profile</h2><input type="text" id="editFullName" placeholder="Full Name"><input type="text" id="editUsername" placeholder="Username"><input type="email" id="editEmail" placeholder="Email"><div class="edit-actions"><button onclick="saveProfileChanges()" class="btn btn-primary">Save</button><button onclick="closeEditModal()" class="btn btn-secondary">Cancel</button></div></div></div>
+<div id="deleteModal" class="delete-modal"><div class="delete-modal-content"><h2>Delete Account?</h2><p>Type <strong>DELETE</strong> to confirm:</p><input type="text" id="confirmDeleteText" placeholder="DELETE"><div style="display:flex; gap:1rem; margin-top:1rem;"><button onclick="closeDeleteModal()" class="btn btn-secondary">Cancel</button><button onclick="confirmDeleteAccount()" class="delete-btn" id="confirmDeleteBtn" disabled>Delete</button></div></div></div>
+<div id="toast" style="position:fixed; bottom:20px; right:20px; background:#10b981; color:white; padding:0.8rem 1.5rem; border-radius:50px; display:none; z-index:9999;"></div>
+
+<div class="fab-container" id="fabContainer"><button class="fab-main" onclick="toggleFabMenu()"><i class="fas fa-bolt"></i></button><div class="fab-menu"><button onclick="location.href='workers.html'" class="fab-item"><i class="fas fa-search"></i><span>Find Talent</span></button><button onclick="location.href='contact.html'" class="fab-item"><i class="fas fa-pen-alt"></i><span>Post Job</span></button><button onclick="location.href='dashboard.html'" class="fab-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></button><button onclick="location.href='myhires.html'" class="fab-item"><i class="fas fa-briefcase"></i><span>My Hires</span></button></div></div>
+<footer><div class="container"><p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p><p>Made with passion in Pokhara, Nepal 🏔️</p></div></footer>
+<button id="scrollTopBtn" title="Go to top">↑</button>
+
+<script src="js/main.js"></script>
+<script src="js/userData.js"></script>
+<script>
+// ===================== INIT =====================
+if (!isLoggedIn()) window.location.href = 'login.html';
+function showToast(msg, bg='#10b981') { let t=document.getElementById('toast'); t.textContent=msg; t.style.background=bg; t.style.display='block'; setTimeout(()=>t.style.display='none',3000); }
+
+// Load user data
+function loadUserData() {
+  const user=getCurrentUser(); if(!user) return;
+  document.getElementById('fullName').textContent=user.fullName||user.username;
+  document.getElementById('usernameDisplay').innerHTML=`<i class="fas fa-at"></i> @${user.username}`;
+  document.getElementById('emailDisplay').textContent=user.email;
+  const joinDate=user.joinDate?new Date(user.joinDate):new Date();
+  document.getElementById('memberSinceDate').textContent=joinDate.toLocaleDateString();
+  const savedPhoto=localStorage.getItem(`userPhoto_${user.userId}`);
+  if(savedPhoto) document.getElementById('profilePhoto').src=savedPhoto;
+  if(user.email==='kandelprabin09@gmail.com') {
+    document.getElementById('adminBadge').style.display='inline-block';
+    document.getElementById('adminPanel').style.display='block';
+    loadAdminData();
+  }
+  const verification=getVerificationData();
+  if(verification && verification.status==='verified') document.getElementById('verifiedBadge').style.display='inline-block';
+}
+function loadStats() {
+  const hires=getUserHires().length;
+  let reviewCount=0;
+  Object.values(getUserReviews()).forEach(wr=>{wr.forEach(r=>{if(r.userId===getCurrentUserId()) reviewCount++;})});
+  const bookmarks=getUserBookmarks().length;
+  document.getElementById('statHires').textContent=hires;
+  document.getElementById('statReviews').textContent=reviewCount;
+  document.getElementById('statBookmarks').textContent=bookmarks;
+}
+function loadRecentHires() {
+  const hires=getUserHires().slice(-3).reverse();
+  const container=document.getElementById('recentHiresList');
+  if(hires.length===0) { container.innerHTML='<p style="text-align:center;">No recent hires</p>'; return; }
+  container.innerHTML=hires.map(h=>`<div style="display:flex; align-items:center; gap:1rem; padding:0.5rem 0; border-bottom:1px solid var(--border);"><img src="${h.photo}" style="width:45px;height:45px;border-radius:50%;object-fit:cover;"><div><strong>${h.name}</strong><br><small>${h.hiredDate||'Recently'}</small></div><a href="worker-detail.html?id=${h.id}" class="btn btn-primary" style="margin-left:auto; padding:0.3rem 0.8rem;">View</a></div>`).join('');
+}
+const BADGES=[{id:'first_hire',name:'First Hire',icon:'🎯'},{id:'first_review',name:'First Review',icon:'⭐'},{id:'first_bookmark',name:'First Bookmark',icon:'🔖'},{id:'five_hires',name:'5 Hires',icon:'🤝'},{id:'verified',name:'Verified',icon:'✅'}];
+function loadBadges() {
+  const hires=getUserHires().length;
+  let reviewCount=0; Object.values(getUserReviews()).forEach(wr=>{wr.forEach(r=>{if(r.userId===getCurrentUserId()) reviewCount++;})});
+  const bookmarks=getUserBookmarks().length;
+  const isVerified=getVerificationData()?.status==='verified';
+  const earned=[];
+  if(hires>=1) earned.push('first_hire');
+  if(reviewCount>=1) earned.push('first_review');
+  if(bookmarks>=1) earned.push('first_bookmark');
+  if(hires>=5) earned.push('five_hires');
+  if(isVerified) earned.push('verified');
+  document.getElementById('earnedBadgesCount').textContent=`${earned.length}/${BADGES.length}`;
+  const container=document.getElementById('badgesGrid');
+  container.innerHTML=BADGES.map(b=>`<div class="badge-card ${earned.includes(b.id)?'earned':''}" style="text-align:center; padding:0.8rem; border-radius:16px;"><div style="font-size:2rem;">${b.icon}</div><div><strong>${b.name}</strong></div>${earned.includes(b.id)?'<small style="color:#10b981;">✅ Earned</small>':'<small style="color:var(--text-light);">🔒 Locked</small>'}</div>`).join('');
+}
+// Profile edit
+function openEditModal() { const u=getCurrentUser(); if(u){ document.getElementById('editFullName').value=u.fullName||''; document.getElementById('editUsername').value=u.username||''; document.getElementById('editEmail').value=u.email||''; } document.getElementById('editProfileModal').classList.add('active'); }
+function closeEditModal() { document.getElementById('editProfileModal').classList.remove('active'); }
+function saveProfileChanges() { const fullName=document.getElementById('editFullName').value.trim(); const username=document.getElementById('editUsername').value.trim(); const email=document.getElementById('editEmail').value.trim(); if(!fullName||!username||!email) return showToast('Fill all fields','#ef4444'); const res=updateUserProfile({fullName,username,email}); if(res.success){ showToast('Profile updated!'); closeEditModal(); loadUserData(); } else showToast(res.message,'#ef4444'); }
+document.getElementById('photoUpload').addEventListener('change',e=>{ const file=e.target.files[0]; if(file){ const reader=new FileReader(); reader.onload=ev=>{ document.getElementById('profilePhoto').src=ev.target.result; localStorage.setItem(`userPhoto_${getCurrentUserId()}`,ev.target.result); showToast('Photo updated!'); }; reader.readAsDataURL(file); } });
+function removePhoto(){ if(confirm('Remove photo?')){ localStorage.removeItem(`userPhoto_${getCurrentUserId()}`); document.getElementById('profilePhoto').src=`https://ui-avatars.com/api/?background=6366f1&color=fff&name=${getCurrentUser()?.username||'User'}`; showToast('Photo removed'); } }
+// Change password with toggle visibility
+function changePassword(){ const cur=document.getElementById('currentPassword').value; const newp=document.getElementById('newPassword').value; const conf=document.getElementById('confirmPassword').value; if(!cur||!newp||!conf) return showToast('Fill all fields','#ef4444'); if(newp!==conf) return showToast('Passwords do not match','#ef4444'); if(newp.length<4) return showToast('Password too short','#ef4444'); const res=changeUserPassword(cur,newp); showToast(res.message,res.success?'#10b981':'#ef4444'); if(res.success){ document.getElementById('currentPassword').value=''; document.getElementById('newPassword').value=''; document.getElementById('confirmPassword').value=''; } }
+// Password toggle functionality
+document.querySelectorAll('.toggle-pwd').forEach(icon => {
+  icon.addEventListener('click', function() {
+    const targetId = this.getAttribute('data-target');
+    const input = document.getElementById(targetId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      this.classList.remove('fa-eye-slash');
+      this.classList.add('fa-eye');
+    } else {
+      input.type = 'password';
+      this.classList.remove('fa-eye');
+      this.classList.add('fa-eye-slash');
+    }
+  });
+});
+function logout(){ if(confirm('Logout?')){ logoutUser(); window.location.href='login.html'; } }
+function openDeleteModal(){ const pwd=document.getElementById('deletePassword').value; const user=getCurrentUser(); if(!pwd) return showToast('Enter password','#ef4444'); if(user.password!==pwd) return showToast('Wrong password','#ef4444'); document.getElementById('deleteModal').classList.add('active'); document.getElementById('confirmDeleteBtn').disabled=true; document.getElementById('confirmDeleteText').oninput=function(){ document.getElementById('confirmDeleteBtn').disabled=this.value!=='DELETE'; }; }
+function closeDeleteModal(){ document.getElementById('deleteModal').classList.remove('active'); }
+function confirmDeleteAccount(){ const userId=getCurrentUserId(); const users=getAllUsers(); saveAllUsers(users.filter(u=>u.userId!==userId)); localStorage.removeItem(`userdata_${userId}`); localStorage.removeItem(`userPhoto_${userId}`); logoutUser(); alert('Account deleted'); window.location.href='index.html'; }
+// Admin functions (simplified)
+let currentUserIdToVerify=null;
+function loadAdminData(){ loadPendingVerifications(); loadPendingJobs(); loadWorkersList(); loadVerifiedUsers(); }
+function showAdminTab(tab){ document.querySelectorAll('#verificationsTab,#pendingJobsTab,#addWorkerTab,#manageWorkersTab,#verifiedUsersTab').forEach(t=>t.style.display='none'); document.getElementById(tab+'Tab').style.display='block'; }
+function loadPendingVerifications(){ const allUsers=getAllUsers(); const pending=allUsers.filter(u=>u.email!=='kandelprabin09@gmail.com' && getVerificationData(u.userId)?.status==='pending'); document.getElementById('pendingVerifCount').textContent=pending.length; const container=document.getElementById('pendingVerificationsList'); if(pending.length===0){ container.innerHTML='<p>No pending verifications</p>'; return; } container.innerHTML=pending.map(u=>`<div class="verification-card" style="padding:1rem; border-bottom:1px solid var(--border);"><strong>${u.fullName||u.username}</strong><br><small>${u.email}</small><button class="btn-sm btn-verify" onclick="verifyUser('${u.userId}')">Verify</button></div>`).join(''); }
+function verifyUser(userId){ currentUserIdToVerify=userId; if(confirm('Verify this user?')){ const v=getVerificationData(userId); v.status='verified'; v.verifiedAt=new Date().toISOString(); saveVerificationData(v,userId); showToast('User verified'); loadPendingVerifications(); loadVerifiedUsers(); } }
+function loadVerifiedUsers(){ const allUsers=getAllUsers(); const verified=allUsers.filter(u=>u.email!=='kandelprabin09@gmail.com' && getVerificationData(u.userId)?.status==='verified'); document.getElementById('verifiedUsersList').innerHTML=verified.map(u=>`<div><strong>${u.fullName||u.username}</strong><br><small>${u.email}</small></div>`).join('')||'<p>No verified users</p>'; }
+function loadPendingJobs(){ const pending=JSON.parse(localStorage.getItem('hirenepal_pending_jobs')||'[]'); document.getElementById('pendingJobsCount').textContent=pending.length; const container=document.getElementById('pendingJobsList'); if(pending.length===0){ container.innerHTML='<p>No pending jobs</p>'; return; } container.innerHTML=pending.map(j=>`<div><strong>${j.jobTitle}</strong> - ${j.name}<br><button onclick="approveJob(${j.id})">Approve</button> <button onclick="rejectJob(${j.id})">Reject</button></div>`).join(''); }
+function approveJob(id){ let pending=JSON.parse(localStorage.getItem('hirenepal_pending_jobs')||'[]'); let approved=JSON.parse(localStorage.getItem('hirenepal_approved_jobs')||'[]'); const job=pending.find(j=>j.id===id); if(job){ job.status='approved'; approved.push(job); pending=pending.filter(j=>j.id!==id); localStorage.setItem('hirenepal_pending_jobs',JSON.stringify(pending)); localStorage.setItem('hirenepal_approved_jobs',JSON.stringify(approved)); showToast('Job approved'); loadPendingJobs(); } }
+function rejectJob(id){ let pending=JSON.parse(localStorage.getItem('hirenepal_pending_jobs')||'[]'); pending=pending.filter(j=>j.id!==id); localStorage.setItem('hirenepal_pending_jobs',JSON.stringify(pending)); showToast('Job rejected'); loadPendingJobs(); }
+function loadWorkersList(){ const workers=JSON.parse(localStorage.getItem('hirenepal_workers')||'[]'); const container=document.getElementById('workersList'); if(workers.length===0){ container.innerHTML='<p>No custom workers</p>'; return; } container.innerHTML=workers.map(w=>`<div style="display:flex; justify-content:space-between;"><span><strong>${w.name}</strong><br>${w.skills.join(', ')}</span><button onclick="deleteWorker(${w.id})" class="btn-sm btn-danger">Delete</button></div>`).join(''); }
+function deleteWorker(id){ if(confirm('Delete worker?')){ let workers=JSON.parse(localStorage.getItem('hirenepal_workers')||'[]'); workers=workers.filter(w=>w.id!==id); localStorage.setItem('hirenepal_workers',JSON.stringify(workers)); refreshGlobalWorkers(); loadWorkersList(); } }
+function addNewWorker(){ const name=document.getElementById('newName')?.value; const skills=document.getElementById('newSkills')?.value; const rate=document.getElementById('newRate')?.value; const loc=document.getElementById('newLocation')?.value; const phone=document.getElementById('newPhone')?.value; if(!name||!skills||!rate||!loc||!phone) return showToast('Fill all fields','#ef4444'); let workers=JSON.parse(localStorage.getItem('hirenepal_workers')||'[]'); const newId=workers.length?Math.max(...workers.map(w=>w.id),100)+1:101; const newWorker={id:newId,name,photo:document.getElementById('newPhoto')?.value||`https://ui-avatars.com/api/?background=6366f1&color=fff&name=${encodeURIComponent(name)}`,skills:skills.split(',').map(s=>s.trim()),rate,location:loc,rating:parseFloat(document.getElementById('newRating')?.value)||4.5,bio:document.getElementById('newBio')?.value||'Professional worker',phone,reviews:[]}; workers.push(newWorker); localStorage.setItem('hirenepal_workers',JSON.stringify(workers)); refreshGlobalWorkers(); showToast(`Worker ${name} added`); loadWorkersList(); }
+window.refreshGlobalWorkers=refreshGlobalWorkers;
+loadUserData(); loadStats(); loadRecentHires(); loadBadges();
+</script>
+</body>
+</html>

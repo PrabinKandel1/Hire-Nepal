@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireNepal – Local Talent Pokhara</title>
+  <meta name="description" content="Hire local professionals in Pokhara - Fast, Trusted, Community-driven">
+<link rel="preload" as="image" href="your-hero-image.jpg">
+  <!-- Font Awesome (if not already included) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Preload critical images -->
+<link rel="preload" as="image" href="https://via.placeholder.com/200x200?text=HireNepal">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=90">
+
+
+  
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">
+        <span class="logo-icon">🏔️</span>
+        <span class="logo-text">HireNepal</span>
+      </div>
+      
+      <div id="menuToggle" class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      
+      <div id="navLinks" class="nav-links">
+        <a href="index.html" class="nav-link">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="workers.html" class="nav-link">
+          <i class="fas fa-users"></i>
+          <span>Find Talent</span>
+        </a>
+        
+        <a href="jobs.html" class="nav-link">
+          <i class="fas fa-briefcase"></i>
+          <span>Browse Jobs</span>
+        </a>
+
+        <a href="contact.html" class="nav-link">
+          <i class="fas fa-pen-alt"></i>
+          <span>Post Job</span>
+        </a>
+        <a href="myhires.html" id="myHiresLink" class="nav-link" style="display:none;">
+          <i class="fas fa-briefcase"></i>
+          <span>My Hires</span>
+        </a>
+        <a href="dashboard.html" class="nav-link">
+          <i class="fas fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="your-profile.html" class="nav-link">
+          <i class="fas fa-user-circle"></i>
+          <span>Profile</span>
+        </a>
+        <a href="help.html" class="nav-link">
+          <i class="fas fa-question-circle"></i>
+          <span>Help</span>
+        </a>
+        <a href="login.html" id="authLink" class="nav-link auth-link">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>Login</span>
+        </a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      Connect with Skilled Locals<br>
+      <span class="highlight">in Pokhara</span>
+    </h1>
+    
+    <p class="hero-subtitle">
+      Fast, reliable platform to hire trusted professionals – developers, 
+      tradespeople, creatives and more – all from right here in Pokhara.
+    </p>
+  <div class="hero-buttons">
+  <button onclick="navigateTo('workers.html')" class="btn-primary">
+    <i class="fas fa-search"></i> Find Talent
+  </button>
+  <button onclick="navigateTo('contact.html')" class="btn-secondary">
+    <i class="fas fa-briefcase"></i> Post Job Free
+  </button>
+  </div>
+  </div>
+</section>
+
+<!-- Featured Professionals Section with Find Talent Style -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title" style="text-align:center; margin:4rem 0 3rem; font-size:2.8rem;">Featured Professionals</h2>
+    <div class="grid" id="featuredGrid" style="gap:2.2rem;"></div>
+  </div>
+</section>
+
+<!-- Recent Views Section -->
+<section class="section" id="recentViewsSection" style="display:none; padding-top:0;">
+  <div class="container">
+    <h2 class="section-title" style="margin:2rem 0 3rem; font-size:2.2rem;">Recently Viewed</h2>
+    <div class="grid" id="recentViewsGrid" style="gap:2rem;"></div>
+  </div>
+</section>
+
+<section class="why-section">
+  <div class="container">
+    <h2 class="section-title" style="text-align:center; margin-bottom:3.5rem; font-size:2.8rem;">Why HireNepal?</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <h3 class="why-title">Fast Matching</h3>
+        <p class="why-text">Get responses from local talent within hours.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🛡️</div>
+        <h3 class="why-title">Verified Profiles</h3>
+        <p class="why-text">Ratings, reviews & real Pokhara locals.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🏔️</div>
+        <h3 class="why-title">Support Local</h3>
+        <p class="why-text">Keep money in the Pokhara community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Toast -->
+<div id="toast" style="display:none; position:fixed; top:30px; right:30px; padding:1.4rem 2.6rem; border-radius:16px; background:#10b981; color:white; z-index:9999; box-shadow:0 12px 40px rgba(0,0,0,0.4); font-weight:500; font-size:1.2rem;">
+  Welcome to HireNepal! 🏔️
+</div>
+
+<!-- Scroll to top button -->
+<button id="scrollTopBtn" title="Go to top">↑</button>
+<!-- Floating Action Button -->
+<div class="fab-container" id="fabContainer">
+    <button class="fab-main" onclick="toggleFabMenu()">
+        <i class="fas fa-bolt"></i>
+    </button>
+    <div class="fab-menu">
+        <button onclick="location.href='workers.html'" class="fab-item">
+            <i class="fas fa-search"></i>
+            <span>Find Talent</span>
+        </button>
+        <button onclick="location.href='contact.html'" class="fab-item">
+            <i class="fas fa-pen-alt"></i>
+            <span>Post Job</span>
+        </button>
+        <button onclick="location.href='dashboard.html'" class="fab-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+        </button>
+        <button onclick="location.href='myhires.html'" class="fab-item">
+            <i class="fas fa-briefcase"></i>
+            <span>My Hires</span>
+        </button>
+    </div>
+</div>
+
+<footer style="background:var(--bg-card); border-top:1px solid var(--border); padding:2.5rem 0; margin-top:4rem;">
+  <div class="container" style="text-align:center; color:var(--text-light); font-size:0.95rem;">
+    <p>© <script>document.write(new Date().getFullYear());</script> HireNepal. All rights reserved.</p>
+    <p style="margin-top:0.5rem;">Made with passion in Pokhara, Nepal 🏔️</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/data.js"></script>
+<script src="js/userData.js"></script>
+<script>
+if (!localStorage.getItem('welcomeShown')) {
+  const toast = document.getElementById('toast');
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; localStorage.setItem('welcomeShown', 'true'); }, 5000);
+}
+
+function getAllWorkersForDisplay() {
+  return typeof getAllWorkersList === 'function' ? getAllWorkersList() : (window.workers || []);
+}
+
+const featured = getAllWorkersForDisplay().slice(0,6);
+const grid = document.getElementById('featuredGrid');
+featured.forEach(w => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.padding = '2rem';
+  card.innerHTML = `<div style="text-align:center;"><img src="${w.photo}" alt="${w.name}" loading="lazy" style="width:140px;height:140px;border-radius:50%;object-fit:cover;margin-bottom:1.2rem;border:4px solid var(--primary-light);"><h3 style="margin-bottom:0.6rem;">${w.name}</h3><p style="color:#fbbf24;">★ ${w.rating.toFixed(1)}</p><p style="color:var(--text-light);">${w.skills.slice(0,2).join(' • ')}</p><p style="color:var(--primary);font-weight:600;">${w.rate}</p><p><i class="fas fa-map-marker-alt"></i> ${w.location}</p><p style="font-size:0.95rem;height:70px;overflow:hidden;">${w.bio.substring(0,100)}${w.bio.length>100?'...':''}</p><a href="worker-detail.html?id=${w.id}" class="view-profile-btn">View Profile</a></div>`;
+  grid.appendChild(card);
+});
+
+const recentViews = JSON.parse(localStorage.getItem('recentViews') || '[]');
+const recentSection = document.getElementById('recentViewsSection');
+const recentGrid = document.getElementById('recentViewsGrid');
+if (recentViews.length > 0) {
+  recentSection.style.display = 'block';
+  recentViews.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.padding = '1.5rem';
+    card.innerHTML = `<div style="text-align:center;"><img src="${w.photo}" alt="${w.name}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;"><h3>${w.name}</h3><p>★ ${w.rating ? w.rating.toFixed(1) : '4.5'}</p><p>${w.skills.slice(0,2).join(' • ')}</p><a href="worker-detail.html?id=${w.id}" class="view-again-btn">View Again</a></div>`;
+    recentGrid.appendChild(card);
+  });
+}
+
+let touchstartX = 0;
+document.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+  if (e.changedTouches[0].screenX - touchstartX > 100 && !document.querySelector('input:focus')) {
+    if (navigator.vibrate) navigator.vibrate(20);
+    if (typeof showToast === 'function') showToast('⬅️ Going back...', '#6366f1');
+    setTimeout(() => history.back(), 200);
+  }
+});
+function navigateTo(url) { window.location.href = url; }
+</script>
+
+</body>
+</html>
